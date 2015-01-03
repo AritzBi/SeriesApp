@@ -1,7 +1,14 @@
 package es.deusto.series_app;
 
-public class Serie {
+import java.io.Serializable;
 
+public class Serie implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String nombre;
 	

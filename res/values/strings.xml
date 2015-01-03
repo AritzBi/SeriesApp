@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Series_App</string>
+    <string name="app_name">Series App</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_series_list">SeriesListActivity</string>
-	<string name="msg_error_server">Series server unavailable</string>
+    <string name="msg_error_server">Series server unavailable</string>
+    <string name="action_share_serie">Share Serie</string>
+    <string name="search_serie">Search Serie</string>
+    <string name="title_activity_serie_detail">SerieDetailActivity</string>
+ 	<string name="serie_banner">Banner Serie</string>
 </resources>
