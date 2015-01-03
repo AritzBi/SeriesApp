@@ -1,9 +1,8 @@
 package es.deusto.series_app;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +11,7 @@ import org.json.JSONObject;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +26,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.ShareActionProvider;
 
-public class SeriesListActivity extends ListActivity implements ICallAPI,OnQueryTextListener {
+public class SeriesListActivity extends ListActivity implements ICallAPI,IConvertToBitmap,OnQueryTextListener {
 
 	private static String URL_API_SERIES = "http://pythontest-aritzbi.rhcloud.com/api/series";
 	
@@ -35,6 +35,10 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,OnQuery
 	private SerieAdapter serieAdapter;
 	
 	private Context appContext;
+	
+	private List<String> bannerPaths;
+	
+	public static Map<String,Bitmap> bitmapsForBannerPaths;
 	
 	private ActionMode mActionMode = null;
 	
@@ -48,6 +52,8 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,OnQuery
 		
 		if ( lstSeries == null )
 			lstSeries = new ArrayList<Serie>();
+		if ( bannerPaths == null )
+			bannerPaths = new ArrayList<String>();
 		
 		serieAdapter = new SerieAdapter(this, R.layout.serie_row, R.id.serie_name, lstSeries);
 		
@@ -194,10 +200,18 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,OnQuery
 				serie.setDescripcion(descripcion);
 				Log.e("Series", Constantes.URL_RAIZ_BANNERS_SERIES + bannerPath );
 				serie.setBannerPath( Constantes.URL_RAIZ_BANNERS_SERIES + bannerPath);
+				bannerPaths.add(Constantes.URL_RAIZ_BANNERS_SERIES + bannerPath);
 				serie.setId(id);
 				serie.setNombre(nombre);
 				
 				listaSeries.add(serie);
+			}
+			
+			//We make an asynchronous task to obtain the bitmaps associated to each image
+			if ( bannerPaths != null && bannerPaths.size() > 0 )
+			{
+				ConvertToBitmap convertToBitmap = new ConvertToBitmap( getApplicationContext(), this );
+				convertToBitmap.execute(bannerPaths);
 			}
 			
 		} catch (JSONException e) {
@@ -228,5 +242,17 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,OnQuery
 	    }
 
 	    return true;
+	}
+
+	@Override
+	public void processBitmapsForBannersPath(
+			Map<String, Bitmap> bitmapsBannersPath) {
+		
+		if ( bitmapsBannersPath != null && bitmapsBannersPath.keySet().size() > 0 )
+		{
+			bitmapsForBannerPaths = bitmapsBannersPath;
+			serieAdapter.notifyDataSetChanged();
+		}
+		
 	}
 }

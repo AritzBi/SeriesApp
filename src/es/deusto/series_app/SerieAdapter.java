@@ -4,18 +4,15 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,10 +73,15 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 		}
 		Serie serie = series.get(position);
 		
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.serie_banner);
-		if ( serie.getBannerPath() != null )
+		Map<String,Bitmap> bitmaps = SeriesListActivity.bitmapsForBannerPaths;
+		
+		if ( bitmaps != null )
 		{
-			//imageView.setImageBitmap(DownloadImage(serie.getBannerPath()));
+			if ( bitmaps.containsKey(serie.getBannerPath() ) )
+			{
+				ImageView imageView = (ImageView) convertView.findViewById(R.id.serie_banner);
+				imageView.setImageBitmap(bitmaps.get(serie.getBannerPath()));
+			}
 		}
 		
 		TextView serieName = (TextView) convertView.findViewById(R.id.serie_name);
