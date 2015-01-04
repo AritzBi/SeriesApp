@@ -8,13 +8,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import es.deusto.series_app.database.SerieDAO;
+import es.deusto.series_app.preferences.MySettingsActivity;
 
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
@@ -27,6 +28,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.ShareActionProvider;
+import es.deusto.series_app.database.SerieDAO;
 
 public class SeriesListActivity extends ListActivity implements ICallAPI,IConvertToBitmap,OnQueryTextListener {
 
@@ -87,7 +89,8 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		});
 		
 		getListView().setTextFilterEnabled(true);
-	
+		
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 	}
 	
 	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
@@ -198,9 +201,15 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			showSettings(item);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void showSettings(MenuItem item){
+		Intent intent = new Intent(this, MySettingsActivity.class);
+		startActivity(intent);
 	}
 	
 	@Override
@@ -217,6 +226,7 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public void parseCallResponse(String response) {
 		List<Serie> listaSeries = new ArrayList<Serie>();
 		try {

@@ -1,18 +1,16 @@
 package es.deusto.series_app;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +20,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import es.deusto.series_app.preferences.MySettingsFragment;
 
 public class SerieAdapter extends BaseAdapter implements Filterable {
 
@@ -92,39 +91,6 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 		
 		return convertView;
 	}
-	
-	private Bitmap DownloadImage(String URL)
-    {
-	    InputStream in = null;
-		try {
-			URL url = new URL ( URL.trim() );
-			in = url.openConnection().getInputStream();
-		} catch (IOException e) {
-			Log.e("Series", "" + e.getMessage());
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-        BufferedInputStream bis = new BufferedInputStream(in,1024*8);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        int len=0;
-        byte[] buffer = new byte[1024];
-        try {
-			while((len = bis.read(buffer)) != -1){
-			    out.write(buffer, 0, len);
-			}
-	        out.close();
-	        bis.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-        byte[] data = out.toByteArray();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);       
-        return bitmap;
-    }
-
 
 
 	@Override
@@ -144,10 +110,27 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
             if (orig == null)
                 orig = series;
             if (constraint != null) {
+            	
+        	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        	Set<String> defaultValue = new HashSet<String>();
+        	defaultValue.add("Name");
+			Set<String> filterOptions = sharedPref.getStringSet(MySettingsFragment.KEY_FILTER_OPTIONS, defaultValue );
+        	boolean filterByName = false;
+        	boolean filterByNetwork = false;
+        	boolean filterByDescription = false;
+        	
+        	if ( filterOptions.contains("Name") )
+        		filterByName = true;
+        	if ( filterOptions.contains("Network") )
+        		filterByNetwork = true;
+        	if ( filterOptions.contains("Description") )
+        		filterByDescription = true;	
+            	
                 if (orig != null && orig.size() > 0) {
                     for (final Serie g : orig) {
-                    	if ( g.getNombre().toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) || 
-                    			g.getCadena().toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) )
+                    	if ( ( filterByName && g.getNombre().toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) ) || 
+                    		( filterByNetwork && g.getCadena().toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) ) ||
+                    		( filterByDescription && g.getDescripcion().toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) ) )
                     	{
                     		results.add(g);
                     	}  

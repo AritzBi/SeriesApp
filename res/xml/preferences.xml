@@ -3,6 +3,7 @@
     <PreferenceCategory android:title="@string/app_settings">
         <EditTextPreference android:key="pref_username" android:title="@string/pref_title_username" android:summary="@string/pref_summary_username"/>
         <EditTextPreference android:key="pref_useremail" android:title="@string/pref_title_email" android:summary="@string/pref_summary_email"/>
+        <SwitchPreference android:key="pref_show_concluded_series" android:title="@string/pref_title_show_concluded_series" android:summary="@string/pref_summary_show_concluded_series" android:switchTextOff="@string/no" android:switchTextOn="@string/yes" android:defaultValue="@string/yes"   />
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/filter_settings">
@@ -10,9 +11,9 @@
      <CheckBoxPreference android:key="pref_sort_by_rating" android:title="@string/pref_sort_by_rating" android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notification_settings">
-        <!--  <SwitchPreference android:key="pref_active_notifications" android:title="@string/pref_title_active_notifications" android:summary="@string/pref_summary_active_notifications" android:switchTextOff="@string/pref_title_active_notifications_no" android:switchTextOn="@string/pref_title_active_notifications_yes" android:defaultValue="@string/pref_title_active_notifications_no" />
-        <CheckBoxPreference android:key="pref_highlight_nearest_place" android:title="@string/pref_title_highlight_nearest_place" android:defaultValue="false" android:enabled="false"/>
-    	-->
+        <SwitchPreference android:key="pref_notifications" android:title="@string/pref_title_notifications" android:switchTextOff="@string/no" android:switchTextOn="@string/yes" android:defaultValue="@string/yes" />
+        <SwitchPreference android:key="pref_notifications_via_arduino" android:title="@string/pref_title_notifications_via_arduino" android:switchTextOff="@string/no" android:switchTextOn="@string/yes" android:defaultValue="@string/no" />
+    	<ListPreference />
     </PreferenceCategory>
     
 

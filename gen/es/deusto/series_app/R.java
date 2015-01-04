@@ -1672,8 +1672,8 @@ containing a value of this type.
         public static final int accept=0x7f070002;
         public static final int action_settings=0x7f070032;
         public static final int action_share_serie=0x7f070035;
-        public static final int action_sign_in=0x7f070047;
-        public static final int action_sign_in_short=0x7f070048;
+        public static final int action_sign_in=0x7f07004e;
+        public static final int action_sign_in_short=0x7f07004f;
         public static final int app_name=0x7f070030;
         public static final int app_settings=0x7f070039;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
@@ -1778,32 +1778,38 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f070005;
         public static final int create_calendar_title=0x7f070004;
         public static final int decline=0x7f070003;
-        public static final int error_field_required=0x7f07004e;
-        public static final int error_incorrect_password=0x7f07004d;
-        public static final int error_invalid_email=0x7f07004b;
-        public static final int error_invalid_password=0x7f07004c;
+        public static final int error_field_required=0x7f070055;
+        public static final int error_incorrect_password=0x7f070054;
+        public static final int error_invalid_email=0x7f070052;
+        public static final int error_invalid_password=0x7f070053;
         public static final int filter_settings=0x7f07003a;
         public static final int hello_world=0x7f070031;
         public static final int msg_error_server=0x7f070034;
+        public static final int no=0x7f070047;
         public static final int notification_settings=0x7f070042;
-        public static final int plus_disconnect=0x7f07004a;
-        public static final int plus_sign_out=0x7f070049;
+        public static final int plus_disconnect=0x7f070051;
+        public static final int plus_sign_out=0x7f070050;
         public static final int pref_sort_by_rating=0x7f070041;
         public static final int pref_summary_email=0x7f07003e;
         public static final int pref_summary_filter_options=0x7f070040;
+        public static final int pref_summary_show_concluded_series=0x7f070045;
         public static final int pref_summary_username=0x7f07003c;
         public static final int pref_title_email=0x7f07003d;
         public static final int pref_title_filter_options=0x7f07003f;
+        public static final int pref_title_notifications=0x7f070048;
+        public static final int pref_title_notifications_color=0x7f07004a;
+        public static final int pref_title_notifications_via_arduino=0x7f070049;
+        public static final int pref_title_show_concluded_series=0x7f070044;
         public static final int pref_title_username=0x7f07003b;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f070045;
-        public static final int prompt_password=0x7f070046;
+        public static final int prompt_email=0x7f07004c;
+        public static final int prompt_password=0x7f07004d;
         public static final int search_serie=0x7f070036;
         public static final int serie_banner=0x7f070038;
         public static final int store_picture_message=0x7f070001;
         public static final int store_picture_title=0x7f070000;
-        public static final int title_activity_login=0x7f070044;
+        public static final int title_activity_login=0x7f07004b;
         public static final int title_activity_my_settings=0x7f070043;
         public static final int title_activity_serie_detail=0x7f070037;
         public static final int title_activity_series_list=0x7f070033;
@@ -1811,6 +1817,7 @@ containing a value of this type.
          available or up-to-date 
          */
         public static final int wallet_buy_button_place_holder=0x7f070022;
+        public static final int yes=0x7f070046;
     }
     public static final class style {
         /** 
