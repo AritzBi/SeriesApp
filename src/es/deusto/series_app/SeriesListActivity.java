@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import es.deusto.series_app.database.SerieDAO;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -42,9 +44,14 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	
 	private ActionMode mActionMode = null;
 	
+	private SerieDAO serieDAO;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		serieDAO = new SerieDAO(this);
+		serieDAO.open();
 		
 		generateSeriesList();
 		
@@ -74,6 +81,7 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		        // Start the CAB using the ActionMode.Callback defined above
 		        mActionMode = SeriesListActivity.this.startActionMode(mActionModeCallback);
 		        mActionMode.setTag(position);
+		        
 		        return true;
 		    }
 		});
@@ -139,9 +147,38 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		
 	};
 	
+	@SuppressWarnings("unchecked")
 	private void generateSeriesList() {
-		CallAPI callAPI = new CallAPI(getApplicationContext(), this);
-		callAPI.execute(URL_API_SERIES);
+		
+		List<Serie> series = serieDAO.getAllSeries();
+		Log.i("Database", "Retrieved series " + series );
+		
+		if ( series != null && series.size() > 0 ) 
+		{
+			//We take the series
+			lstSeries = series;
+			
+			//We calculate the bitmap for the banner paths
+			List<String> bannerPaths = new ArrayList<String>();
+			for ( Serie serie : series )
+			{
+				if ( serie != null && serie.getBannerPath() != null )
+					bannerPaths.add( serie.getBannerPath() );
+			}
+			
+			if ( bannerPaths.size() > 0 )
+			{
+				ConvertToBitmap convertToBitmap = new ConvertToBitmap(appContext, this);
+				convertToBitmap.execute(bannerPaths);
+			}
+		
+		}
+		else
+		{
+			CallAPI callAPI = new CallAPI(getApplicationContext(), this);
+			callAPI.execute(URL_API_SERIES);
+		}
+	
 	}
 
 	@Override
@@ -214,6 +251,13 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 				convertToBitmap.execute(bannerPaths);
 			}
 			
+			//We add the different series to the series.db
+			for ( Serie serie : listaSeries )
+			{
+				serieDAO.addSerie(serie);
+				Log.i("Database", "Adding new serie " + serie );
+			}
+			
 		} catch (JSONException e) {
 			Log.e("Error", "Parsing json " + e.getMessage());
 		}
@@ -255,4 +299,19 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		}
 		
 	}
+	
+	@Override
+	protected void onResume() {
+		serieDAO.open();
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		serieDAO.close();
+		super.onPause();
+	}
+	
+	
+
 }
