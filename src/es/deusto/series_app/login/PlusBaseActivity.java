@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.login;
 
 import android.content.Intent;
 import android.content.IntentSender;

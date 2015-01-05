@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.login;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,11 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
+
+import es.deusto.series_app.R;
+import es.deusto.series_app.R.id;
+import es.deusto.series_app.R.layout;
+import es.deusto.series_app.R.string;
 
 /**
  * A login screen that offers login via email/password and via Google+ sign in.

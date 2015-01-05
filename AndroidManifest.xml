@@ -32,7 +32,7 @@
             android:label="@string/title_activity_serie_detail" >
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="es.deusto.series_app.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
@@ -42,14 +42,18 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="es.deusto.series_app.preferences.MySettingsActivity"
+            android:name=".preferences.MySettingsActivity"
             android:label="@string/title_activity_my_settings" >
+        </activity>
+        <activity
+            android:name="es.deusto.series_app.activity.EpisodioDetailActivity"
+            android:label="@string/title_activity_episodio_detail" >
         </activity>
     </application>
 
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
-     option is required to comply with the Google+ Sign-In developer policies
+     option is required to comply with the Google+ Sign-In developer policies
     -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 

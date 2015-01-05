@@ -32,7 +32,7 @@ import es.deusto.series_app.database.SerieDAO;
 
 public class SeriesListActivity extends ListActivity implements ICallAPI,IConvertToBitmap,OnQueryTextListener {
 
-	private static String URL_API_SERIES = "http://pythontest-aritzbi.rhcloud.com/api/series";
+	
 	
 	private List<Serie> lstSeries;
 	
@@ -179,7 +179,7 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		else
 		{
 			CallAPI callAPI = new CallAPI(getApplicationContext(), this);
-			callAPI.execute(URL_API_SERIES);
+			callAPI.execute(Constantes.URL_API_SERIES);
 		}
 	
 	}
@@ -227,10 +227,9 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 
 
 	@SuppressWarnings("unchecked")
-	public void parseCallResponse(String response) {
+	public void parseCallResponse(JSONObject json) {
 		List<Serie> listaSeries = new ArrayList<Serie>();
 		try {
-			JSONObject json = new JSONObject( response );
 			JSONArray series = json.getJSONArray("results");
 			
 			for ( int i = 0; i < series.length(); i++ )

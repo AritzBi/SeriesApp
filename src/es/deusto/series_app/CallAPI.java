@@ -9,13 +9,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-public class CallAPI extends AsyncTask<String, Void, String>{
+public class CallAPI extends AsyncTask<String, Void, JSONObject>{
 
 	private Context appContext;
 	private ICallAPI iCallAPI;
@@ -27,27 +29,36 @@ public class CallAPI extends AsyncTask<String, Void, String>{
 	}
 	
 	@Override
-	protected String doInBackground(String... params) {
+	protected JSONObject doInBackground(String... params) {
 		String response = makeGetCall ( params[0] );
-		
-		return response;
+		Log.i("Response CallAPI", response );
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(response);
+		} catch (JSONException e) {
+			Log.e("Error CallAPI", e.getMessage());
+		}
+		Log.i("Enviar CallAPI",""+ jsonObject );
+		return jsonObject;
 	}
 	
-	@Override
-	protected void onPostExecute(String result) {
+	
+	
+    @Override
+	protected void onPostExecute(JSONObject result) {
+		Log.i("Coming Response", ""+ result );
 		if ( result == null )
 		{
 			Toast.makeText(appContext, R.string.msg_error_server, Toast.LENGTH_SHORT).show();
 		}
 		else
 		{
+			Log.i("CallAPI", "Correct calling to ParseCallResponse" );
 			iCallAPI.parseCallResponse(result);
 		}
-		
-		
 	}
-	
-    private static String makeGetCall(String url){
+
+	private static String makeGetCall(String url){
         InputStream inputStream = null;
         String result = "";
         try {

@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,11 +6,31 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="es.deusto.series_app.SerieDetailActivity" >
+    android:orientation="vertical"
+    tools:context="es.deusto.series_app.SerieDetailActivity"  >
 
-    <TextView
-        android:layout_width="wrap_content"
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:paddingTop="10dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/serieBanner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:contentDescription="@string/serie_banner"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp" />
+
+   </LinearLayout>
+
+    <ExpandableListView
+        android:id="@+id/listEpisodios"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:paddingTop="10dp" >
+    </ExpandableListView>
 
-</RelativeLayout>
+</LinearLayout>
