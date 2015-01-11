@@ -21,6 +21,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import es.deusto.series_app.activity.EpisodioDetailActivity;
 import es.deusto.series_app.adapter.ExpandableListAdapter;
+import es.deusto.series_app.database.EpisodioDAO;
 import es.deusto.series_app.vo.Episodio;
 
 public class SerieDetailActivity extends Activity implements ICallAPI,OnChildClickListener,IConvertToBitmap{
@@ -28,18 +29,24 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 	private ExpandableListView episodios;
 	private ExpandableListAdapter expandableListAdapter;
 	private List<Episodio> lstEpisodios;
+	private EpisodioDAO episodioDAO;
 	
 	ImageView imageView;
 	private Serie serie;
 	
-	private static String BASE_URL = "http://pythontest-aritzbi.rhcloud.com/api/episodes/";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_serie_detail);
 		
 		episodios = (ExpandableListView) findViewById(R.id.listEpisodios);
 		
+		episodioDAO = new EpisodioDAO(this);
+		
+		episodioDAO.open(); 
+	
 		Serie serie = null;
 		
 		if (getIntent().getExtras() != null) 
@@ -50,7 +57,13 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 			if (serie != null)
 			{
 				setSerie ( serie );
-				getEpisodiosFromSerie ( serie );
+				
+				lstEpisodios = episodioDAO.findBySerieId(serie.getId());
+				Log.i("Retrieved episodios", ""+ episodios);
+				if ( lstEpisodios == null || lstEpisodios.size() < 1 )
+				{
+					getEpisodiosFromSerie ( serie );
+				}
 			}
 		}
 		
@@ -66,6 +79,7 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 		episodios.setOnChildClickListener(this);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void setSerie ( Serie serie )
 	{
 		this.serie = serie;
@@ -83,7 +97,7 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 	
 	private void getEpisodiosFromSerie ( Serie serie )
 	{
-		String url = BASE_URL + serie.getId();
+		String url = Constantes.URL_API_EPISODIOS + serie.getId();
 		CallAPI callAPI = new CallAPI(getApplicationContext(), this);
 		Log.i("URL", url);
 		callAPI.execute(url);
@@ -98,9 +112,6 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
@@ -110,6 +121,7 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 
 	@Override
 	public void parseCallResponse(JSONObject json) {
+		
 		List<Episodio> listaEpisodios = new ArrayList<Episodio>();
 		try {
 			JSONArray episodios = json.getJSONArray("results");
@@ -122,8 +134,8 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 				String imagePath = jsonEpisodio.getString("filename");
 				String nombreEpisodio = jsonEpisodio.getString("episode_name");
 				String numeroEpisodio = jsonEpisodio.getString("combined_episodenumber");
-				String fechaEmision = jsonEpisodio.getString("firstAired");
-				Log.i("Fecha Emision", fechaEmision);
+				JSONObject jsonFechaEmision = jsonEpisodio.getJSONObject("firstAired");
+				Long fechaEmision = jsonFechaEmision.getLong("$date");
 				String numeroTemporada = jsonEpisodio.getString("combined_season");
 				String id = jsonEpisodio.getString("id");
 				
@@ -131,12 +143,14 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 				
 				episodio.setRating(rating);
 				episodio.setDescripcion(descripcion);
-				episodio.setRutaImagen(imagePath);
+				episodio.setRutaImagen(Constantes.URL_RAIZ_API + imagePath);
 				episodio.setNombre(nombreEpisodio);
 				episodio.setNumeroEpisodio(numeroEpisodio);
 				episodio.setNumeroTemporada(numeroTemporada);
-				//episodio.setFechaEmision(new Date ( fechaEmision ) );
+				episodio.setFechaEmision( fechaEmision );
 				episodio.setId(id);
+				if ( serie != null )
+					episodio.setSerieId(serie.getId());
 				
 				listaEpisodios.add(episodio);
 			}
@@ -148,6 +162,11 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 		
 		if ( listaEpisodios.size() > 0 )
 		{
+			//Save the data over the database
+			for ( Episodio episodio : listaEpisodios )
+			{
+				episodioDAO.addEpisodio(episodio);
+			}
 			lstEpisodios = listaEpisodios;
 			expandableListAdapter.setEpisodios(listaEpisodios);
 			expandableListAdapter.notifyDataSetChanged();
@@ -185,5 +204,17 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 			}
 		}
 		
+	}
+	
+	@Override
+	protected void onResume() {
+		episodioDAO.open();
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		episodioDAO.close();
+		super.onPause();
 	}
 }

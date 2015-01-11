@@ -32,8 +32,6 @@ import es.deusto.series_app.database.SerieDAO;
 
 public class SeriesListActivity extends ListActivity implements ICallAPI,IConvertToBitmap,OnQueryTextListener {
 
-	
-	
 	private List<Serie> lstSeries;
 	
 	private SerieAdapter serieAdapter;

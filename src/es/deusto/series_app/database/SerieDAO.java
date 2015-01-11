@@ -50,7 +50,7 @@ public class SerieDAO {
 
 		    cursor.moveToFirst();
 		    while (!cursor.isAfterLast()) {
-		      Serie serie = cursorToComment(cursor);
+		      Serie serie = cursorToSerie(cursor);
 		      series.add(serie);
 		      cursor.moveToNext();
 		    }
@@ -60,7 +60,7 @@ public class SerieDAO {
 		    return series;
 	 }
 	 
-	  private Serie cursorToComment(Cursor cursor) {
+	  private Serie cursorToSerie(Cursor cursor) {
 		    Serie serie = new Serie();
 		    serie.setId(cursor.getString(0));
 		    serie.setNombre(cursor.getString(1));

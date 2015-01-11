@@ -5,13 +5,8 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:orientation="vertical"
     android:paddingTop="10dp"
-    android:paddingLeft="20dp" >
-    
-    <ImageView
-        android:id="@+id/serie_banner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/serie_banner" />
+    android:paddingLeft="20dp"
+    android:paddingBottom="10dp" >
 
      <TextView
         android:id="@+id/serie_name"
@@ -25,5 +20,12 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:textSize="14sp" />
+     
+    <ImageView
+        android:id="@+id/serie_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/serie_banner"
+        />
 
 </LinearLayout>

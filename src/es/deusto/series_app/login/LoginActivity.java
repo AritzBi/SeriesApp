@@ -6,8 +6,10 @@ import java.util.List;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,10 +33,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 
+import es.deusto.series_app.Constantes;
 import es.deusto.series_app.R;
-import es.deusto.series_app.R.id;
-import es.deusto.series_app.R.layout;
-import es.deusto.series_app.R.string;
+import es.deusto.series_app.SeriesListActivity;
+import es.deusto.series_app.database.UsuarioDAO;
+import es.deusto.series_app.preferences.MySettingsActivity;
+import es.deusto.series_app.vo.Usuario;
 
 /**
  * A login screen that offers login via email/password and via Google+ sign in.
@@ -66,12 +71,15 @@ public class LoginActivity extends PlusBaseActivity implements
 	private SignInButton mPlusSignInButton;
 	private View mSignOutButtons;
 	private View mLoginFormView;
+	UsuarioDAO usuarioDAO = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		usuarioDAO = new UsuarioDAO( this );
+		
 		// Find the Google+ sign in button.
 		mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
 		if (supportsGooglePlayServices()) {
@@ -180,7 +188,8 @@ public class LoginActivity extends PlusBaseActivity implements
 
 	private boolean isEmailValid(String email) {
 		// TODO: Replace this with your own logic
-		return email.contains("@");
+		return true;
+	//	return email.contains("@");
 	}
 
 	private boolean isPasswordValid(String password) {
@@ -354,25 +363,21 @@ public class LoginActivity extends PlusBaseActivity implements
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
+			
+			usuarioDAO.open();
+			
+			//Check if the user is on the DB
+			Usuario usuario = usuarioDAO.getUsuarioByEmail(mEmail);
+			
+			if ( usuario == null )
+			{
+				//New registration
+				Usuario newUsuario = new Usuario ( mEmail, mPassword );
+				usuarioDAO.addUsuario(newUsuario);
+				return true;
 			}
-
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
-
-			// TODO: register the new account here.
-			return true;
+			else
+				return usuario.getPassword().equals( UsuarioDAO.getPasswordMD5( mPassword ) );
 		}
 
 		@Override
@@ -381,6 +386,9 @@ public class LoginActivity extends PlusBaseActivity implements
 			showProgress(false);
 
 			if (success) {
+				Intent intent = new Intent(LoginActivity.this, SeriesListActivity.class);
+				intent.putExtra(Constantes.USUARIO_EMAIL_UNICO, mEmail);
+				startActivity(intent);
 				finish();
 			} else {
 				mPasswordView
@@ -395,4 +403,17 @@ public class LoginActivity extends PlusBaseActivity implements
 			showProgress(false);
 		}
 	}
+	
+	@Override
+	protected void onResume() {
+		usuarioDAO.open();
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		usuarioDAO.close();
+		super.onPause();
+	}
+	
 }

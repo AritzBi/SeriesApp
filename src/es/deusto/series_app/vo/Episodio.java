@@ -1,7 +1,7 @@
 package es.deusto.series_app.vo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class Episodio implements Serializable {
 
@@ -16,8 +16,10 @@ public class Episodio implements Serializable {
 	private String nombre;
 	private String numeroEpisodio;
 	private String numeroTemporada;
-	private Date fechaEmision;
+	private long fechaEmision;
 	private String rutaImagen;
+	private String serieId;
+	private String fechaEmisionFormateada;
 	
 	public String getId() {
 		return id;
@@ -55,10 +57,10 @@ public class Episodio implements Serializable {
 	public void setNumeroTemporada(String numeroTemporada) {
 		this.numeroTemporada = numeroTemporada;
 	}
-	public Date getFechaEmision() {
+	public long getFechaEmision() {
 		return fechaEmision;
 	}
-	public void setFechaEmision(Date fechaEmision) {
+	public void setFechaEmision(long fechaEmision) {
 		this.fechaEmision = fechaEmision;
 	}
 	public String getRutaImagen() {
@@ -66,6 +68,15 @@ public class Episodio implements Serializable {
 	}
 	public void setRutaImagen(String rutaImagen) {
 		this.rutaImagen = rutaImagen;
+	}
+	public String getSerieId() {
+		return serieId;
+	}
+	public void setSerieId(String serieId) {
+		this.serieId = serieId;
+	}
+	public String getFechaEmisionFormateada () {
+		return new Date ( fechaEmision ).toString();
 	}
 	
 
