@@ -122,7 +122,7 @@ public class LoginActivity extends PlusBaseActivity implements
 		mEmailLoginFormView = findViewById(R.id.email_login_form);
 		mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
 		
-		if ( session.getId() != null )
+		if ( session.getId() != 0 )
 		{
 			Intent intent = new Intent(LoginActivity.this, SeriesListActivity.class);
 			intent.putExtra(Constantes.USUARIO_EMAIL_UNICO, session.getEmail() );
