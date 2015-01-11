@@ -60,6 +60,7 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 				
 				lstEpisodios = episodioDAO.findBySerieId(serie.getId());
 				Log.i("Retrieved episodios", ""+ episodios);
+				
 				if ( lstEpisodios == null || lstEpisodios.size() < 1 )
 				{
 					getEpisodiosFromSerie ( serie );
@@ -122,38 +123,11 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 	@Override
 	public void parseCallResponse(JSONObject json) {
 		
-		List<Episodio> listaEpisodios = new ArrayList<Episodio>();
+		List<Episodio> listaEpisodios = null;
+		
 		try {
 			JSONArray episodios = json.getJSONArray("results");
-			
-			for ( int i = 0; i < episodios.length(); i++ )
-			{
-				JSONObject jsonEpisodio = episodios.getJSONObject(i);
-				String rating = jsonEpisodio.getString("rating");
-				String descripcion = jsonEpisodio.getString("overview");
-				String imagePath = jsonEpisodio.getString("filename");
-				String nombreEpisodio = jsonEpisodio.getString("episode_name");
-				String numeroEpisodio = jsonEpisodio.getString("combined_episodenumber");
-				JSONObject jsonFechaEmision = jsonEpisodio.getJSONObject("firstAired");
-				Long fechaEmision = jsonFechaEmision.getLong("$date");
-				String numeroTemporada = jsonEpisodio.getString("combined_season");
-				String id = jsonEpisodio.getString("id");
-				
-				Episodio episodio = new Episodio();
-				
-				episodio.setRating(rating);
-				episodio.setDescripcion(descripcion);
-				episodio.setRutaImagen(Constantes.URL_RAIZ_API + imagePath);
-				episodio.setNombre(nombreEpisodio);
-				episodio.setNumeroEpisodio(numeroEpisodio);
-				episodio.setNumeroTemporada(numeroTemporada);
-				episodio.setFechaEmision( fechaEmision );
-				episodio.setId(id);
-				if ( serie != null )
-					episodio.setSerieId(serie.getId());
-				
-				listaEpisodios.add(episodio);
-			}
+			listaEpisodios = JSONParser.parseEpisodios ( episodios, serie.getId() );
 		}
 		catch ( JSONException e )
 		{

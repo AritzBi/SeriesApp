@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import es.deusto.series_app.vo.Usuario;
 
 public class UsuarioDAO {
@@ -43,8 +44,9 @@ public class UsuarioDAO {
 	
 	public Usuario getUsuarioByEmail ( String email )
 	{
+		Log.i("Llega email", email );
 		Usuario usuario = null;
-
+		Log.i("Database", ""+ database);
 	    Cursor cursor = database.query(MySQLiteHelper.TABLE_USUARIO,
 	        allColumns, MySQLiteHelper.COLUMN_USUARIO_EMAIL + " = ?" , new String[]{email}, null, null, null);
 	    

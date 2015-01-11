@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import es.deusto.series_app.preferences.MySettingsActivity;
-
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +27,11 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.ShareActionProvider;
 import es.deusto.series_app.database.SerieDAO;
+import es.deusto.series_app.database.SerieFavoritaDAO;
+import es.deusto.series_app.database.UsuarioDAO;
+import es.deusto.series_app.login.Session;
+import es.deusto.series_app.preferences.MySettingsActivity;
+import es.deusto.series_app.vo.SerieFavorita;
 
 public class SeriesListActivity extends ListActivity implements ICallAPI,IConvertToBitmap,OnQueryTextListener {
 
@@ -46,12 +49,25 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	
 	private SerieDAO serieDAO;
 	
+	private SerieFavoritaDAO serieFavoritaDAO;
+	
+	private UsuarioDAO usuarioDAO;
+	
+	private Session session;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		serieDAO = new SerieDAO(this);
 		serieDAO.open();
+		
+		serieFavoritaDAO = new SerieFavoritaDAO(this);
+		serieFavoritaDAO.open();
+		
+		usuarioDAO = new UsuarioDAO(this);
+		
+		session = new Session(this , usuarioDAO);
 		
 		generateSeriesList();
 		
@@ -116,7 +132,6 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	        	}
 	        }
 	        shareProv.setShareIntent(intent);
-	        Log.i("Series", "Viene 4");
 	        return true;
 		}
 
@@ -130,7 +145,26 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return true;
+	    	final int itemPosition = Integer.parseInt(mode.getTag().toString());
+	    	Serie serie = lstSeries.get(itemPosition);
+			switch ( item.getItemId() )
+			{
+				case R.id.mnu_serie_favorite:
+					if ( serieFavoritaDAO.existeSerieFavoritaByPk(session.getId(), serie.getId()) )
+					{
+						serieFavoritaDAO.deleteSerieFavorita( new SerieFavorita(session.getId(), serie.getId() ) );
+						Log.i("Favorite Serie","Deleted");
+					}
+					else
+					{
+						serieFavoritaDAO.addSerieFavorita(new SerieFavorita(session.getId(), serie.getId() ) );
+						Log.i("Favorite Serie", "Added");
+					}
+					mode.finish();
+					return true;
+	            default:
+	                return false;
+			}
 		}
 
 		@Override
@@ -229,26 +263,15 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		List<Serie> listaSeries = new ArrayList<Serie>();
 		try {
 			JSONArray series = json.getJSONArray("results");
+			listaSeries = JSONParser.parseSeries( series );
 			
-			for ( int i = 0; i < series.length(); i++ )
-			{
-				JSONObject jsonSerie = series.getJSONObject(i);
-				String cadena = jsonSerie.getString("network");
-				String descripcion = jsonSerie.getString("overview");
-				String bannerPath = jsonSerie.getString("banner");
-				String id = jsonSerie.getString("id");
-				String nombre = jsonSerie.getString("name");
-				
-				Serie serie = new Serie();
-				serie.setCadena(cadena);
-				serie.setDescripcion(descripcion);
-				Log.e("Series", Constantes.URL_RAIZ_BANNERS_SERIES + bannerPath );
-				serie.setBannerPath( Constantes.URL_RAIZ_BANNERS_SERIES + bannerPath);
-				bannerPaths.add(Constantes.URL_RAIZ_BANNERS_SERIES + bannerPath);
-				serie.setId(id);
-				serie.setNombre(nombre);
-				
-				listaSeries.add(serie);
+			//We specify the different banner paths
+			if ( listaSeries != null && listaSeries.size() > 0 )
+			{	
+				for ( Serie serie : listaSeries )
+				{
+					bannerPaths.add(serie.getBannerPath());
+				}
 			}
 			
 			//We make an asynchronous task to obtain the bitmaps associated to each image
@@ -268,12 +291,12 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		} catch (JSONException e) {
 			Log.e("Error", "Parsing json " + e.getMessage());
 		}
+		
 		if ( listaSeries.size() > 0 )
 		{
 			lstSeries = listaSeries;
 			serieAdapter.setArraySeries(lstSeries);
 		}
-		Log.i("Series",""+ lstSeries);
 		serieAdapter.notifyDataSetChanged();
 	}
 

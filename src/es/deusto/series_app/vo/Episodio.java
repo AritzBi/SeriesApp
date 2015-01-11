@@ -79,5 +79,4 @@ public class Episodio implements Serializable {
 		return new Date ( fechaEmision ).toString();
 	}
 	
-
 }

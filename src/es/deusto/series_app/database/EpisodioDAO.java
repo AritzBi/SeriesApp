@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import es.deusto.series_app.vo.Episodio;
 
 public class EpisodioDAO {
@@ -47,7 +46,7 @@ public class EpisodioDAO {
 		values.put(MySQLiteHelper.COLUMN_EPISODIO_RATING, episodio.getRating());
 		values.put(MySQLiteHelper.COLUMN_EPISODIO_SERIE_ID, episodio.getSerieId());
 		values.put(MySQLiteHelper.COLUMN_EPISODIO_RUTA_IMAGEN, episodio.getRutaImagen() );
-		
+		values.put(MySQLiteHelper.COLUMN_EPISODIO_FECHA_EMISION,  episodio.getFechaEmision() );
 		database.insert(MySQLiteHelper.TABLE_EPISODIO, null, values);
 	}
 	

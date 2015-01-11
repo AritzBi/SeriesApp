@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,7 +71,7 @@ public class LoginActivity extends PlusBaseActivity implements
 
 		usuarioDAO = new UsuarioDAO( this );
 		
-		session = new Session ( getApplicationContext() );
+		session = new Session ( this , usuarioDAO );
 		
 		// Find the Google+ sign in button.
 		mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
@@ -120,6 +121,13 @@ public class LoginActivity extends PlusBaseActivity implements
 		mProgressView = findViewById(R.id.login_progress);
 		mEmailLoginFormView = findViewById(R.id.email_login_form);
 		mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
+		
+		if ( session.getId() != null )
+		{
+			Intent intent = new Intent(LoginActivity.this, SeriesListActivity.class);
+			intent.putExtra(Constantes.USUARIO_EMAIL_UNICO, session.getEmail() );
+			startActivity(intent);
+		}
 	}
 
 	private void populateAutoComplete() {
@@ -179,13 +187,10 @@ public class LoginActivity extends PlusBaseActivity implements
 	}
 
 	private boolean isEmailValid(String email) {
-		// TODO: Replace this with your own logic
-		return true;
-	//	return email.contains("@");
+		return email.contains("@");
 	}
 
 	private boolean isPasswordValid(String password) {
-		// TODO: Replace this with your own logic
 		return password.length() > 4;
 	}
 
