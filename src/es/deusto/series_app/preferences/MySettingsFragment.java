@@ -9,8 +9,8 @@ import es.deusto.series_app.R;
 
 public class MySettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
 
-	private static final String KEY_USERNAME = "pref_username";
-	private static final String KEY_EMAIL = "pref_useremail";
+	public static final String KEY_USERNAME = "pref_username";
+	public static final String KEY_EMAIL = "pref_useremail";
 	public static final String KEY_FILTER_OPTIONS = "pref_filter_options";
 	
 	@Override

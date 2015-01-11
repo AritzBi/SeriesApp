@@ -6,7 +6,6 @@ import java.util.List;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,7 +35,6 @@ import es.deusto.series_app.Constantes;
 import es.deusto.series_app.R;
 import es.deusto.series_app.SeriesListActivity;
 import es.deusto.series_app.database.UsuarioDAO;
-import es.deusto.series_app.preferences.MySettingsActivity;
 import es.deusto.series_app.vo.Usuario;
 
 /**
@@ -52,15 +49,8 @@ import es.deusto.series_app.vo.Usuario;
 public class LoginActivity extends PlusBaseActivity implements
 		LoaderCallbacks<Cursor> {
 
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
-	/**
-	 * Keep track of the login task to ensure we can cancel it if requested.
-	 */
+	private Session session;
+	
 	private UserLoginTask mAuthTask = null;
 
 	// UI references.
@@ -79,6 +69,8 @@ public class LoginActivity extends PlusBaseActivity implements
 		setContentView(R.layout.activity_login);
 
 		usuarioDAO = new UsuarioDAO( this );
+		
+		session = new Session ( getApplicationContext() );
 		
 		// Find the Google+ sign in button.
 		mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
@@ -389,6 +381,8 @@ public class LoginActivity extends PlusBaseActivity implements
 				Intent intent = new Intent(LoginActivity.this, SeriesListActivity.class);
 				intent.putExtra(Constantes.USUARIO_EMAIL_UNICO, mEmail);
 				startActivity(intent);
+				//Set the session of the user
+				session.setEmail(mEmail);
 				finish();
 			} else {
 				mPasswordView
