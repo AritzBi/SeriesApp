@@ -11,13 +11,10 @@ import android.util.Log;
 public class Session {
 
 	private SharedPreferences preferences;
-	private Integer id = null;
-	private Context ctx;
 	private UsuarioDAO usuarioDAO;
 	
 	public Session(Context ctx, UsuarioDAO usuarioDAO ) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
-		this.ctx = ctx;
 		this.usuarioDAO = usuarioDAO;
 	}
 
@@ -50,7 +47,9 @@ public class Session {
 	}
 
 	public Integer getId() {
-		if (id == null) {
+		Integer id = preferences.getInt(MySettingsFragment.KEY_ID, 0);
+		if ( id == null || id != 0 )
+		{
 			usuarioDAO.open();
 			
 			String email = getEmail();
@@ -60,14 +59,15 @@ public class Session {
 				Usuario usuario = usuarioDAO.getUsuarioByEmail(email);
 				
 				if (usuario != null) {
-					this.id = usuario.getId();
+					preferences.edit()
+					.putInt(MySettingsFragment.KEY_ID, usuario.getId())
+					.commit();
 				} else {
 					Log.e("Database Error", "Email " + getEmail()
 							+ " not found");
 				}
 			}
 		}
-		Log.i("Retrieve id", "" + id );
-	return id;
+		return id;
 	}
 }
