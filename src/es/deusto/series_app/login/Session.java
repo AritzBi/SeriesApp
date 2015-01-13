@@ -48,10 +48,9 @@ public class Session {
 
 	public Integer getId() {
 		Integer id = preferences.getInt(MySettingsFragment.KEY_ID, 0);
-		if ( id == null || id != 0 )
+		if ( id == 0 )
 		{
 			usuarioDAO.open();
-			
 			String email = getEmail();
 			
 			if ( !email.equals("") ) {
@@ -62,6 +61,7 @@ public class Session {
 					preferences.edit()
 					.putInt(MySettingsFragment.KEY_ID, usuario.getId())
 					.commit();
+					Log.i("Id usuario", ""+ usuario.getId());
 				} else {
 					Log.e("Database Error", "Email " + getEmail()
 							+ " not found");
