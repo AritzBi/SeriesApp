@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import es.deusto.series_app.Constantes;
+import es.deusto.series_app.R;
 import es.deusto.series_app.SeriesListActivity;
 import es.deusto.series_app.activity.EpisodioDetailActivity;
 import es.deusto.series_app.database.EpisodioDAO;
@@ -58,6 +59,9 @@ public class NotificationEpisodioService extends Service {
 	        				for ( Episodio episodio : episodios )
 	        				{
 	        					Date ahora = new Date();
+	        					ahora.setDate(11);
+	        					ahora.setMinutes(0);
+	        					ahora.setHours(21);
 	        					Log.i("Fecha ahora", "" + ahora );
 	        					Date newDate = episodio.getFechaEmisionDate();
 	        					newDate.setMinutes(ahora.getMinutes());
@@ -65,7 +69,11 @@ public class NotificationEpisodioService extends Service {
 	        					episodio.setFechaEmision( newDate.getTime() );
 	        					
 	        					Log.i("Fecha episodio", "" + episodio.getFechaEmisionDate() );
-	        					if ( hoursDifference(ahora, episodio.getFechaEmisionDate()) == 4 )
+
+	        			        long diff = episodio.getFechaEmisionDate().getTime() - ahora.getTime();
+	        			        long diffHours = diff / (60 * 60 * 1000) + 1;
+	        			        Log.i("Diff hours", " " + diffHours);
+	        					if ( diffHours == 4 )
 	        					{
 	        						episodiosANotificar.add(episodio);
 	        					}
@@ -78,12 +86,12 @@ public class NotificationEpisodioService extends Service {
 	        				{
 	        					if ( episodio != null )
 	        					{
-	        						showNotification(this, episodio, i);
+	        						showNotification(getApplicationContext(), episodio, i);
 	        						i++;
 	        					}
 	        				}
 	        			}
-	        			
+	        			episodiosANotificar.clear();
 	        		}
 	        	}
 	        }
@@ -91,16 +99,11 @@ public class NotificationEpisodioService extends Service {
 	        return START_STICKY;
 	}
 	
-	private static int hoursDifference(Date date1, Date date2) {
-
-	    final int MILLI_TO_HOUR = 1000 * 60 * 60;
-	    return (int) (date1.getTime() - date2.getTime()) / MILLI_TO_HOUR;
-	}
-	
 	private void showNotification(Context context, Episodio episodio, int notificationPosition ){
 		// First, create the notification
 		NotificationCompat.Builder nBuilder =
 				new NotificationCompat.Builder(context)
+				.setSmallIcon(R.drawable.ic_action_time)
 				.setContentTitle("Episode " + episodio.getNombre() )
 				.setAutoCancel(true)
 				.setContentText("Start time at " + episodio.getFechaEmisionFormateada() );
@@ -108,7 +111,7 @@ public class NotificationEpisodioService extends Service {
 		Intent i = new Intent(this, EpisodioDetailActivity.class);
 		i.setAction("android.intent.action.MAIN");
 		i.addCategory("android.intent.category.LAUNCHER");
-		i.putExtra(Constantes.EPISODIO , episodio );
+		i.putExtra(Constantes.INFO_EPISODIO , episodio );
 		nBuilder.setContentIntent(PendingIntent.getActivity(this, 0 , i , Intent.FLAG_ACTIVITY_NEW_TASK));
 		
 		Notification noti = nBuilder.build();
