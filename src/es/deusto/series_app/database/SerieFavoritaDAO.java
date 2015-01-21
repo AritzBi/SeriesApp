@@ -70,15 +70,17 @@ public class SerieFavoritaDAO {
 	    return serieFavorita;
 	}
 	
-	public List<SerieFavorita> getSeriesFavoritasByUserId ( int userId )
+	public List<String> findSeriesFavroitesByUserId ( int userId )
 	{
 		List<SerieFavorita> seriesFavoritas = new ArrayList<SerieFavorita>();
+		List<String> codigosSeries = new ArrayList<String>();
 		
 		Cursor cursor =  database.query(MySQLiteHelper.TABLE_SERIES_FAVORITAS,
 		        allColumns, MySQLiteHelper.COLUMN_SERIES_FAVORITAS_USUARIO_ID + " = " + userId , null, null, null, null);
 	
 		if ( cursor.getCount() > 0 )
 		{
+			cursor.moveToFirst();
 			while ( !cursor.isAfterLast() )
 			{
 				SerieFavorita serieFavorita = cursorToSerieFavorita(cursor);
@@ -87,7 +89,15 @@ public class SerieFavoritaDAO {
 			}
 		}
 		
-		return seriesFavoritas;
+		if ( seriesFavoritas.size() > 0 )
+		{
+			for ( SerieFavorita serieFavorita : seriesFavoritas )
+			{
+				codigosSeries.add(serieFavorita.getIdSerie());
+			}
+		}
+		
+		return codigosSeries;
 	}
 	
 	private SerieFavorita cursorToSerieFavorita ( Cursor cursor )

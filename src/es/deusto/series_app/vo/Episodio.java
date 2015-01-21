@@ -19,7 +19,6 @@ public class Episodio implements Serializable {
 	private long fechaEmision;
 	private String rutaImagen;
 	private String serieId;
-	private String fechaEmisionFormateada;
 	
 	public String getId() {
 		return id;
@@ -77,6 +76,9 @@ public class Episodio implements Serializable {
 	}
 	public String getFechaEmisionFormateada () {
 		return new Date ( fechaEmision ).toString();
+	}
+	public Date getFechaEmisionDate() {
+		return new Date ( fechaEmision );
 	}
 	
 }

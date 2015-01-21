@@ -140,11 +140,14 @@ public class EpisodioDetailActivity extends Activity implements IConvertToBitmap
 		super.onActivityResult(requestCode, resultCode, data);
 		if ( requestCode == Constantes.ADD_COMMENT )
 		{
-			Comment newComment = (Comment) data.getExtras().getSerializable(Constantes.NEW_COMMENT);
-			if ( newComment != null )
+			if ( resultCode == RESULT_OK )
 			{
-				comments.add(newComment);
-				commentAdapter.notifyDataSetChanged();
+				Comment newComment = (Comment) data.getExtras().getSerializable(Constantes.NEW_COMMENT);
+				if ( newComment != null )
+				{
+					comments.add(newComment);
+					commentAdapter.notifyDataSetChanged();
+				}
 			}
 		}
 		

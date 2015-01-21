@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.adapter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +20,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import es.deusto.series_app.R;
+import es.deusto.series_app.Serie;
+import es.deusto.series_app.SeriesListActivity;
+import es.deusto.series_app.database.SerieFavoritaDAO;
+import es.deusto.series_app.login.Session;
 import es.deusto.series_app.preferences.MySettingsFragment;
 
 public class SerieAdapter extends BaseAdapter implements Filterable {
@@ -27,7 +32,6 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 	
 	private Context context;
 	private int resource;
-	private int textViewResourceId;
 	private List<Serie> series;
 	private List<Serie> orig;
 	private Filter mFilter;
@@ -39,7 +43,6 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 		super();
 		this.context = context;
 		this.resource = resource;
-		this.textViewResourceId = textViewResourceId;
 		this.series = series;
 	}
 	
@@ -118,16 +121,42 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
             if (orig == null)
                 orig = series;
             if (constraint != null) {
+            	SerieFavoritaDAO serieFavoritaDAO = new SerieFavoritaDAO(context);
+            	serieFavoritaDAO.open();
+            	Session session = new Session(context);
+            	List<String> seriesFavoritas = serieFavoritaDAO.findSeriesFavroitesByUserId( session.getId() );
             	
+            	 if (orig != null && orig.size() > 0) {
+            		 for ( final Serie serie : orig )
+            		 {
+            			 if ( seriesFavoritas.contains(serie.getId()) )
+            			 {
+            				 results.add(serie);
+            			 }
+            		 }
+            	 }
+            	 
+                 oReturn.values = results;
+                 oReturn.count = results.size();
+            	serieFavoritaDAO.close();
             }
-			return null;
+            else
+            {
+            	oReturn.values = orig;
+            }
+            
+			return oReturn;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected void publishResults(CharSequence constraint,
 				FilterResults results) {
-			// TODO Auto-generated method stub
-			
+	        Log.i("Favourite Result: ", ""+results.count);
+	        Log.i("Favourite Result Values: ", ""+results.values);
+	        
+	        series = (ArrayList<Serie>) results.values;
+	        notifyDataSetChanged();
 		}
 		
 	}

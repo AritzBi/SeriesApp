@@ -53,6 +53,7 @@
             android:name="es.deusto.series_app.activity.CommentActivity"
             android:label="@string/title_activity_comment" >
         </activity>
+        <service android:name=".service.NotificationEpisodioService"></service>
     </application>
 
     <!--

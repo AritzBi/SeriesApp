@@ -41,7 +41,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         //Calculate the list for groups and childs
         for ( String temporada : temporadasConEpisodios.keySet() )
         {
-        	String numeroTemporada = " Temporada " + ( Integer.parseInt(temporada) + 1 );
+        	String numeroTemporada = " Season " + ( Integer.parseInt(temporada) );
         	_listDataHeader.add(numeroTemporada);	
         	_listDataChild.put(numeroTemporada, temporadasConEpisodios.get(temporada) );
         }

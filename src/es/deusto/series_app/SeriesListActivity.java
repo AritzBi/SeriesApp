@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,8 +25,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.ShareActionProvider;
+import es.deusto.series_app.adapter.SerieAdapter;
 import es.deusto.series_app.database.SerieDAO;
 import es.deusto.series_app.database.SerieFavoritaDAO;
 import es.deusto.series_app.login.LoginActivity;
@@ -55,6 +58,12 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	
 	private static String estadoInicial = null;
 	
+	private static boolean filteredFavouriteSeries = false;
+	
+	private static boolean alarmRegistered = false;
+	
+	private static PendingIntent pendingIntent = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,7 +74,7 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		serieFavoritaDAO = new SerieFavoritaDAO(this);
 		serieFavoritaDAO.open();
 		
-		session = new Session(this );
+		session = new Session( this );
 		
 		appContext = getApplicationContext();
 		
@@ -161,11 +170,13 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 					if ( serieFavoritaDAO.existeSerieFavoritaByPk(session.getId(), serie.getId()) )
 					{
 						serieFavoritaDAO.deleteSerieFavorita( new SerieFavorita(session.getId(), serie.getId() ) );
+						Toast.makeText(getApplicationContext(), "Serie " + serie.getNombre() + " deleted from favourites", Toast.LENGTH_SHORT).show();
 						Log.i("Favorite Serie","Deleted");
 					}
 					else
 					{
 						serieFavoritaDAO.addSerieFavorita(new SerieFavorita(session.getId(), serie.getId() ) );
+						Toast.makeText(getApplicationContext(), "Serie " + serie.getNombre() + " added to favourites", Toast.LENGTH_SHORT).show();
 						Log.i("Favorite Serie", "Added");
 					}
 					mode.finish();
@@ -243,6 +254,21 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		if (id == R.id.action_settings) {
 			showSettings(item);
 			return true;
+		}
+		else if ( id == R.id.mnu_view_favourite_series ) {
+			if ( filteredFavouriteSeries )
+			{
+				serieAdapter.getFavouriteSeriesFilter().filter(null);
+				item.setIcon(getResources().getDrawable(R.drawable.ic_action_not_important));
+				filteredFavouriteSeries = false;
+			}
+			else
+			{
+				serieAdapter.getFavouriteSeriesFilter().filter("Favourite Series");
+				item.setIcon(getResources().getDrawable(R.drawable.ic_action_important));
+				filteredFavouriteSeries = true;
+			}
+			
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -358,6 +384,20 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		super.onPause();
 	}
 	
+	public static boolean isAlarmRegistered() {
+		return alarmRegistered;
+	}
 	
+	public static void setAlarmRegistered( boolean alarmRegiste) {
+		alarmRegistered = alarmRegiste;
+	}
+
+	public static PendingIntent getPendingIntent() {
+		return pendingIntent;
+	}
+
+	public static void setPendingIntent(PendingIntent pendingIntent) {
+		SeriesListActivity.pendingIntent = pendingIntent;
+	}
 
 }
