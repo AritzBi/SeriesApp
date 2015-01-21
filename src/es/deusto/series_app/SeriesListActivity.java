@@ -28,7 +28,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.ShareActionProvider;
 import es.deusto.series_app.database.SerieDAO;
 import es.deusto.series_app.database.SerieFavoritaDAO;
-import es.deusto.series_app.database.UsuarioDAO;
+import es.deusto.series_app.login.LoginActivity;
 import es.deusto.series_app.login.Session;
 import es.deusto.series_app.preferences.MySettingsActivity;
 import es.deusto.series_app.vo.SerieFavorita;
@@ -51,9 +51,9 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	
 	private SerieFavoritaDAO serieFavoritaDAO;
 	
-	private UsuarioDAO usuarioDAO;
-	
 	private Session session;
+	
+	private static String estadoInicial = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +65,21 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		serieFavoritaDAO = new SerieFavoritaDAO(this);
 		serieFavoritaDAO.open();
 		
-		usuarioDAO = new UsuarioDAO(this);
-		
-		session = new Session(this , usuarioDAO);
-		
-		generateSeriesList();
+		session = new Session(this );
 		
 		appContext = getApplicationContext();
 		
+		if ( session.getEmail().equals("") )
+		{
+			estadoInicial = "";
+			Intent intent = new Intent( this , LoginActivity.class);
+			startActivity(intent);
+		}
+		else
+		{
+			generateSeriesList();
+		}
+			
 		if ( lstSeries == null )
 			lstSeries = new ArrayList<Serie>();
 		if ( bannerPaths == null )
@@ -105,6 +112,7 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		getListView().setTextFilterEnabled(true);
 		
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		
 	}
 	
 	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
@@ -332,7 +340,15 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	
 	@Override
 	protected void onResume() {
+		
 		serieDAO.open();
+		
+		if ( estadoInicial != null && estadoInicial.equals("") && !session.getEmail().equals(""))
+		{
+			generateSeriesList();
+			estadoInicial = null;
+		}
+		
 		super.onResume();
 	}
 	

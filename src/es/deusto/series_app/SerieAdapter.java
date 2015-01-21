@@ -31,6 +31,7 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 	private List<Serie> series;
 	private List<Serie> orig;
 	private Filter mFilter;
+	private Filter filterFavouritesSeries;
 	
 	public SerieAdapter ( Context context, int resource, int textViewResourceId,
 			List<Serie> series )
@@ -100,8 +101,40 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 		return mFilter;
 	}
 	
-	private class SerieFilter extends Filter {
+	public Filter getFavouriteSeriesFilter() {
+		if ( filterFavouritesSeries == null )
+			filterFavouritesSeries = new FavouriteSeriesFilter();
+		return filterFavouritesSeries;
+	}
+	
+	private class FavouriteSeriesFilter extends Filter {
 
+		@Override
+		protected FilterResults performFiltering(CharSequence constraint) {
+	        
+			final FilterResults oReturn = new FilterResults();
+            final ArrayList<Serie> results = new ArrayList<Serie>();
+            
+            if (orig == null)
+                orig = series;
+            if (constraint != null) {
+            	
+            }
+			return null;
+		}
+
+		@Override
+		protected void publishResults(CharSequence constraint,
+				FilterResults results) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	private class SerieFilter extends Filter {
+		
+		
 	    @Override
 	    protected FilterResults performFiltering(CharSequence constraint) {
 	        
@@ -110,6 +143,7 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
             if (orig == null)
                 orig = series;
             if (constraint != null) {
+            	
             	
         	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         	Set<String> defaultValue = new HashSet<String>();

@@ -8,7 +8,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,7 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,9 +30,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 
-import es.deusto.series_app.Constantes;
 import es.deusto.series_app.R;
-import es.deusto.series_app.SeriesListActivity;
 import es.deusto.series_app.database.UsuarioDAO;
 import es.deusto.series_app.vo.Usuario;
 
@@ -71,7 +67,7 @@ public class LoginActivity extends PlusBaseActivity implements
 
 		usuarioDAO = new UsuarioDAO( this );
 		
-		session = new Session ( this , usuarioDAO );
+		session = new Session ( this );
 		
 		// Find the Google+ sign in button.
 		mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
@@ -122,12 +118,6 @@ public class LoginActivity extends PlusBaseActivity implements
 		mEmailLoginFormView = findViewById(R.id.email_login_form);
 		mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
 		
-		if ( session.getId() != 0 )
-		{
-			Intent intent = new Intent(LoginActivity.this, SeriesListActivity.class);
-			intent.putExtra(Constantes.USUARIO_EMAIL_UNICO, session.getEmail() );
-			startActivity(intent);
-		}
 	}
 
 	private void populateAutoComplete() {
@@ -383,9 +373,6 @@ public class LoginActivity extends PlusBaseActivity implements
 			showProgress(false);
 
 			if (success) {
-				Intent intent = new Intent(LoginActivity.this, SeriesListActivity.class);
-				intent.putExtra(Constantes.USUARIO_EMAIL_UNICO, mEmail);
-				startActivity(intent);
 				//Set the session of the user
 				session.setEmail(mEmail);
 				finish();

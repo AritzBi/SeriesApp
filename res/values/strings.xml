@@ -12,13 +12,14 @@
     <string name="serie_banner">Banner Serie</string>
     <string name="app_settings">App Settings</string>
     <string name="filter_settings">Filter Settings</string>
-   <!-- Strings for Preferences Screen -->
-   <string name="pref_title_username">Username</string>
+    <!-- Strings for Preferences Screen -->
+    <string name="pref_title_username">Username</string>
     <string name="pref_summary_username">Enter your username</string>
     <string name="pref_title_email">Email</string>
     <string name="pref_summary_email">Enter your email</string>
     <string name="pref_title_filter_options">Filter Options</string>
     <string name="pref_summary_filter_options">Specify criteria to filter the series</string>
+
     <string-array name="pref_filter_options_entries">
         <item>Name</item>
         <item>Description</item>
@@ -27,6 +28,7 @@
     <string-array name="pref_filter_options_default_values">
         <item>Name</item>
     </string-array>
+
     <string name="pref_sort_by_rating">Sort by Rating</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="title_activity_my_settings">MySettingsActivity</string>
@@ -39,10 +41,15 @@
     <string name="pref_summary_notifications_via_arduino">Notifications via Arduino</string>
     <string name="pref_title_notifications_color">Notification Color</string>
     <string name="title_activity_episodio_detail">EpisodioDetailActivity</string>
-	<string name="episode_image">Episode Image</string>
-	<string name="episodeName">Episode Name</string>
-	<string name="episodeIssueDate">Episode Issue Date</string>
-	<string name="episodeRating">Episode Rating</string>
-	<string name="comments_separator">Comments</string>
-	<string name="action_favorite_serie">Favourite Serie</string>
+    <string name="episode_image">Episode Image</string>
+    <string name="episodeName">Episode Name</string>
+    <string name="episodeIssueDate">Episode Issue Date</string>
+    <string name="episodeRating">Episode Rating</string>
+    <string name="comments_separator">Comments</string>
+    <string name="action_favorite_serie">Favourite Serie</string>
+    
+    <string name="add_comment">Add Comment</string>
+    <string name="title_activity_comment">CommentActivity</string>
+	<string name="inlcude_my_location">Include my Location</string>
+	<string name="remove_comment">Remove Comment</string>
 </resources>

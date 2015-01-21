@@ -3,14 +3,12 @@ package es.deusto.series_app.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.deusto.series_app.vo.Episodio;
-import es.deusto.series_app.vo.SerieFavorita;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import es.deusto.series_app.vo.SerieFavorita;
 
 public class SerieFavoritaDAO {
 
@@ -70,6 +68,26 @@ public class SerieFavoritaDAO {
 	    cursor.close();
 	    
 	    return serieFavorita;
+	}
+	
+	public List<SerieFavorita> getSeriesFavoritasByUserId ( int userId )
+	{
+		List<SerieFavorita> seriesFavoritas = new ArrayList<SerieFavorita>();
+		
+		Cursor cursor =  database.query(MySQLiteHelper.TABLE_SERIES_FAVORITAS,
+		        allColumns, MySQLiteHelper.COLUMN_SERIES_FAVORITAS_USUARIO_ID + " = " + userId , null, null, null, null);
+	
+		if ( cursor.getCount() > 0 )
+		{
+			while ( !cursor.isAfterLast() )
+			{
+				SerieFavorita serieFavorita = cursorToSerieFavorita(cursor);
+				seriesFavoritas.add(serieFavorita);
+				cursor.moveToNext();
+			}
+		}
+		
+		return seriesFavoritas;
 	}
 	
 	private SerieFavorita cursorToSerieFavorita ( Cursor cursor )

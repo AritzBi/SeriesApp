@@ -37,6 +37,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static String COLUMN_SERIES_FAVORITAS_USUARIO_ID = "userId";
 	public static String COLUMN_SERIES_FAVORITAS_SERIE_ID = "serieId";
 	
+	public static String TABLE_COMMENT = "COMMENT";
+	public static String COLUMN_COMMENT_USUARIO_ID = "idUsuario";
+	public static String COLUMN_COMMENT_EPISODIO_ID = "idEpisodio";
+	public static String COLUMN_COMMENT_TEXTO = "texto";
+	public static String COLUMN_COMMENT_LOCALIZACION_USUARIO = "localizacionUsuario";
+	
 	private static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_SERIE
 			+ " ( " + COLUMN_SERIE_ID + " INTEGER NOT NULL UNIQUE, "
 			+ COLUMN_SERIE_CADENA + " TEXT, " + COLUMN_SERIE_DESCRIPCION
@@ -64,6 +70,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ " ( " + COLUMN_SERIES_FAVORITAS_USUARIO_ID + " INTEGER NOT NULL, "
 			+ COLUMN_SERIES_FAVORITAS_SERIE_ID + " TEXT NOT NULL, "
 			+ " PRIMARY KEY(userId,serieId) );";
+	
+	private static final String TABLE_COMMENT_CREATE = "CREATE TABLE " + TABLE_COMMENT + " ( "
+			+ COLUMN_COMMENT_USUARIO_ID + " INTEGER NOT NULL, "
+			+ COLUMN_COMMENT_EPISODIO_ID + " TEXT NOT NULL, "
+			+ COLUMN_COMMENT_TEXTO + " TEXT NOT NULL, "
+			+ COLUMN_COMMENT_LOCALIZACION_USUARIO + " TEXT NOT NULL, "
+			+ " PRIMARY KEY(" + COLUMN_COMMENT_USUARIO_ID + "," + COLUMN_COMMENT_EPISODIO_ID + "," + COLUMN_COMMENT_TEXTO + "," + COLUMN_COMMENT_LOCALIZACION_USUARIO + ") );";
 
 	public MySQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -75,6 +88,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(TABLE_EPISODE_CREATE);
 		db.execSQL(TABLE_USUARIO_CREATE);
 		db.execSQL(TABLE_SERIES_FAVORITAS_CREATE);
+		db.execSQL(TABLE_COMMENT_CREATE);
+		
+		
 	}
 
 	@Override
@@ -86,6 +102,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_EPISODIO);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARIO);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SERIES_FAVORITAS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENT);
 		onCreate(db);
 	}
 

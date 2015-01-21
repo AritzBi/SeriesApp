@@ -9,5 +9,8 @@ public class Constantes {
 	public static String URL_API_EPISODIOS = "http://pythontest-aritzbi.rhcloud.com/api/episodes/";
 	public static String URL_RAIZ_API = "http://pythontest-aritzbi.rhcloud.com/";
 	public static String USUARIO_EMAIL_UNICO = "USUARIO_EMAIL";
-
+	public static int ADD_COMMENT = 0;
+	public static String EPISODIO = "EPISODIO";
+	public static String NEW_COMMENT = "NEW_COMMENT";
+	
 }

@@ -12,10 +12,11 @@ public class Session {
 
 	private SharedPreferences preferences;
 	private UsuarioDAO usuarioDAO;
+	private Context ctx;
 	
-	public Session(Context ctx, UsuarioDAO usuarioDAO ) {
+	public Session(Context ctx ) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
-		this.usuarioDAO = usuarioDAO;
+		this.ctx = ctx;
 	}
 
 	public void setEmail(String email) {
@@ -50,7 +51,12 @@ public class Session {
 		Integer id = preferences.getInt(MySettingsFragment.KEY_ID, 0);
 		if ( id == 0 )
 		{
+			if ( usuarioDAO == null )
+			{
+				usuarioDAO = new UsuarioDAO(ctx);
+			}
 			usuarioDAO.open();
+			
 			String email = getEmail();
 			
 			if ( !email.equals("") ) {
@@ -67,6 +73,8 @@ public class Session {
 							+ " not found");
 				}
 			}
+			
+			usuarioDAO.close();
 		}
 		return id;
 	}
