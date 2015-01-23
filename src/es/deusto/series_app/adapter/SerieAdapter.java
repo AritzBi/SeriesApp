@@ -21,11 +21,11 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import es.deusto.series_app.R;
-import es.deusto.series_app.Serie;
-import es.deusto.series_app.SeriesListActivity;
+import es.deusto.series_app.activity.SeriesListActivity;
 import es.deusto.series_app.database.SerieFavoritaDAO;
 import es.deusto.series_app.login.Session;
 import es.deusto.series_app.preferences.MySettingsFragment;
+import es.deusto.series_app.vo.Serie;
 
 public class SerieAdapter extends BaseAdapter implements Filterable {
 
@@ -36,6 +36,7 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 	private List<Serie> orig;
 	private Filter mFilter;
 	private Filter filterFavouritesSeries;
+	private Filter filterShowConludedSeries;
 	
 	public SerieAdapter ( Context context, int resource, int textViewResourceId,
 			List<Serie> series )
@@ -110,6 +111,12 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 		return filterFavouritesSeries;
 	}
 	
+	public Filter getShowConcludedSeriesFilter() {
+		if ( filterShowConludedSeries == null )
+			filterShowConludedSeries = new FinishedSeriesFilter();
+		return filterShowConludedSeries;
+	}
+	
 	private class FavouriteSeriesFilter extends Filter {
 
 		@Override
@@ -154,6 +161,47 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
 				FilterResults results) {
 	        Log.i("Favourite Result: ", ""+results.count);
 	        Log.i("Favourite Result Values: ", ""+results.values);
+	        
+	        series = (ArrayList<Serie>) results.values;
+	        notifyDataSetChanged();
+		}
+		
+	}
+	
+	private class FinishedSeriesFilter extends Filter {
+
+		@Override
+		protected FilterResults performFiltering(CharSequence constraint) {
+	        
+			final FilterResults oReturn = new FilterResults();
+            final ArrayList<Serie> results = new ArrayList<Serie>();
+            if (orig == null)
+                orig = series;
+            if (constraint != null) {
+            	for ( final Serie serie : orig )
+            	{
+            		if ( !serie.isFinished() )
+            		{
+            			results.add(serie);
+            		}
+            	}
+                oReturn.values = results;
+                oReturn.count = results.size();
+            }
+            else
+            {
+            	oReturn.values = orig;
+            }
+            
+            return oReturn;
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		protected void publishResults(CharSequence constraint,
+				FilterResults results) {
+	        Log.i("Result: ", ""+results.count);
+	        Log.i("Result Values: ", ""+results.values);
 	        
 	        series = (ArrayList<Serie>) results.values;
 	        notifyDataSetChanged();

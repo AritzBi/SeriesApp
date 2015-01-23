@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.task;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.task;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +7,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import es.deusto.series_app.R;
+import es.deusto.series_app.R.string;
 
 import android.content.Context;
 import android.graphics.Bitmap;

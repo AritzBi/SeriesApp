@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import es.deusto.series_app.Constantes;
-import es.deusto.series_app.ConvertToBitmap;
-import es.deusto.series_app.IConvertToBitmap;
 import es.deusto.series_app.R;
 import es.deusto.series_app.database.CommentDAO;
+import es.deusto.series_app.task.ConvertToBitmap;
+import es.deusto.series_app.task.IConvertToBitmap;
 import es.deusto.series_app.vo.Comment;
 import es.deusto.series_app.vo.Episodio;
 

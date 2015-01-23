@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.vo;
 
 import java.io.Serializable;
 
@@ -15,6 +15,8 @@ public class Serie implements Serializable {
 	private String cadena;
 	private String descripcion;
 	private String bannerPath;
+	
+	private boolean finished;
 	
 	public String getId() {
 		return id;
@@ -45,5 +47,11 @@ public class Serie implements Serializable {
 	}
 	public void setBannerPath(String bannerPath) {
 		this.bannerPath = bannerPath;
+	}
+	public boolean isFinished() {
+		return finished;
+	}
+	public void setFinished(boolean finished) {
+		this.finished = finished;
 	}
 }

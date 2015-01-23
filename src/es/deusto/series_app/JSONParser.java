@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import es.deusto.series_app.vo.Episodio;
+import es.deusto.series_app.vo.Serie;
 
 public class JSONParser {
 
@@ -69,6 +70,7 @@ public class JSONParser {
 				String bannerPath = jsonSerie.getString("banner");
 				String id = jsonSerie.getString("id");
 				String nombre = jsonSerie.getString("name");
+				boolean finished = jsonSerie.getBoolean("finished");
 				
 				Serie serie = new Serie();
 				serie.setCadena(cadena);
@@ -78,6 +80,7 @@ public class JSONParser {
 				
 				serie.setId(id);
 				serie.setNombre(nombre);
+				serie.setFinished(finished);
 				
 				listaSeries.add(serie);
 			}

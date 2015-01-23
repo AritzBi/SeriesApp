@@ -13,9 +13,12 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+import es.deusto.series_app.Constantes;
 import es.deusto.series_app.R;
-import es.deusto.series_app.SeriesListActivity;
+import es.deusto.series_app.activity.SeriesListActivity;
+import es.deusto.series_app.login.Session;
 import es.deusto.series_app.service.NotificationEpisodioService;
+import es.deusto.series_app.task.CallAPI;
 
 public class MySettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
 
@@ -24,6 +27,8 @@ public class MySettingsFragment extends PreferenceFragment implements OnSharedPr
 	public static final String KEY_EMAIL = "pref_useremail";
 	public static final String KEY_FILTER_OPTIONS = "pref_filter_options";
 	public static final String KEY_NOTIFICATION_ANDROID = "pref_notifications";
+	public static final String KEY_SHOW_CONCLUDED_SERIES = "pref_show_concluded_series";
+	public static final String KEY_ARDUINO_ID = "pref_arduino_id";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class MySettingsFragment extends PreferenceFragment implements OnSharedPr
 		
 		findPreference(KEY_USERNAME).setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(KEY_USERNAME, ""));
 		findPreference(KEY_EMAIL).setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(KEY_EMAIL, ""));
+		findPreference(KEY_ARDUINO_ID).setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(KEY_ARDUINO_ID, ""));
+		
 	}
 	
 	@Override
@@ -84,13 +91,24 @@ public class MySettingsFragment extends PreferenceFragment implements OnSharedPr
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		
-		if (key.contains(KEY_NOTIFICATION_ANDROID)) {
+		if (key.equals(KEY_NOTIFICATION_ANDROID)) {
 			Log.i("Ha cambiado: ", ""+sharedPreferences.getBoolean(KEY_NOTIFICATION_ANDROID, false) );
 			
 			if (sharedPreferences.getBoolean(KEY_NOTIFICATION_ANDROID, false)) {
 				registerAlarm(getActivity());
 			} else {
 				cancelAlarm();
+			}
+		}
+		else if ( key.equals(KEY_ARDUINO_ID) ) {
+			String arduinoId = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(KEY_ARDUINO_ID, "");
+			if ( !arduinoId.equals("") )
+			{
+				CallAPI callAPI = new CallAPI(getActivity() , null);
+				callAPI.setJsonResponse(false);
+				Session session = new Session( getActivity() );
+				String urlBase = Constantes.URL_REGISTER_ARDUINO + session.getId() + "/" + arduinoId;
+				callAPI.execute(urlBase);
 			}
 		}
 		else if ( key.contains(KEY_USERNAME)) {

@@ -54,4 +54,6 @@
     <string name="title_activity_comment">CommentActivity</string>
 	<string name="inlcude_my_location">Include my Location</string>
 	<string name="remove_comment">Remove Comment</string>
+	
+	<string name="arduino_id">Arduino Id</string>
 </resources>

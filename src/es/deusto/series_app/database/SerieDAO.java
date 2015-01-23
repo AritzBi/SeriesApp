@@ -3,7 +3,7 @@ package es.deusto.series_app.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.deusto.series_app.Serie;
+import es.deusto.series_app.vo.Serie;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

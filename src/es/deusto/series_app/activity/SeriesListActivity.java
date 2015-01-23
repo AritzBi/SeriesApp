@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +25,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.ShareActionProvider;
+import android.widget.Toast;
+import es.deusto.series_app.Constantes;
+import es.deusto.series_app.JSONParser;
+import es.deusto.series_app.R;
 import es.deusto.series_app.adapter.SerieAdapter;
 import es.deusto.series_app.database.SerieDAO;
 import es.deusto.series_app.database.SerieFavoritaDAO;
 import es.deusto.series_app.login.LoginActivity;
 import es.deusto.series_app.login.Session;
 import es.deusto.series_app.preferences.MySettingsActivity;
+import es.deusto.series_app.task.CallAPI;
+import es.deusto.series_app.task.ConvertToBitmap;
+import es.deusto.series_app.task.ICallAPI;
+import es.deusto.series_app.task.IConvertToBitmap;
+import es.deusto.series_app.vo.Serie;
 import es.deusto.series_app.vo.SerieFavorita;
 
 public class SeriesListActivity extends ListActivity implements ICallAPI,IConvertToBitmap,OnQueryTextListener {
@@ -87,6 +95,19 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		else
 		{
 			generateSeriesList();
+			
+			
+			/**
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+			
+			if ( sharedPref.getBoolean(MySettingsFragment.KEY_SHOW_CONCLUDED_SERIES, true) )
+			{
+				serieAdapter.getShowConcludedSeriesFilter().filter("Show Concluded Series");
+			}
+			else
+			{
+				serieAdapter.getShowConcludedSeriesFilter().filter(null);
+			}**/
 		}
 			
 		if ( lstSeries == null )

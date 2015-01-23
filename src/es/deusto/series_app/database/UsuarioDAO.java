@@ -2,6 +2,8 @@ package es.deusto.series_app.database;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,12 +11,16 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import es.deusto.series_app.Constantes;
+import es.deusto.series_app.login.Session;
+import es.deusto.series_app.task.CallAPI;
 import es.deusto.series_app.vo.Usuario;
 
 public class UsuarioDAO {
 
 	private SQLiteDatabase database;
 	private MySQLiteHelper dbHelper;
+	private Context context;
 	
 	private String[] allColumns = { MySQLiteHelper.COLUMN_USUARIO_EMAIL,
 		      MySQLiteHelper.COLUMN_USUARIO_ID, MySQLiteHelper.COLUMN_USUARIO_PASSWORD  };
@@ -23,6 +29,7 @@ public class UsuarioDAO {
 	public UsuarioDAO ( Context context )
 	{
 		dbHelper = new MySQLiteHelper(context);
+		this.context = context;
 	}
 	
 	public void open() throws SQLException {
@@ -40,6 +47,7 @@ public class UsuarioDAO {
 		values.put(MySQLiteHelper.COLUMN_USUARIO_PASSWORD, getPasswordMD5( usuario.getPassword() ) );
 		
 		database.insert(MySQLiteHelper.TABLE_USUARIO, null, values);
+		
 	}
 	
 	public Usuario getUsuarioByEmail ( String email )

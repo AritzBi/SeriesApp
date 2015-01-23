@@ -13,7 +13,7 @@
     <PreferenceCategory android:title="@string/notification_settings">
         <SwitchPreference android:key="pref_notifications" android:title="@string/pref_title_notifications" android:switchTextOff="@string/no" android:switchTextOn="@string/yes" android:defaultValue="@string/yes" />
         <SwitchPreference android:key="pref_notifications_via_arduino" android:title="@string/pref_title_notifications_via_arduino" android:switchTextOff="@string/no" android:switchTextOn="@string/yes" android:defaultValue="@string/no" />
-    	<ListPreference />
+        <EditTextPreference android:key="pref_arduino_id" android:title="@string/arduino_id"/>
     </PreferenceCategory>
     
 

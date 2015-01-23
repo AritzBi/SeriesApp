@@ -1,4 +1,4 @@
-package es.deusto.series_app;
+package es.deusto.series_app.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,20 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
-import es.deusto.series_app.activity.EpisodioDetailActivity;
+import es.deusto.series_app.Constantes;
+import es.deusto.series_app.JSONParser;
+import es.deusto.series_app.R;
+import es.deusto.series_app.R.id;
+import es.deusto.series_app.R.layout;
+import es.deusto.series_app.R.menu;
 import es.deusto.series_app.adapter.ExpandableListAdapter;
 import es.deusto.series_app.database.EpisodioDAO;
+import es.deusto.series_app.task.CallAPI;
+import es.deusto.series_app.task.ConvertToBitmap;
+import es.deusto.series_app.task.ICallAPI;
+import es.deusto.series_app.task.IConvertToBitmap;
 import es.deusto.series_app.vo.Episodio;
+import es.deusto.series_app.vo.Serie;
 
 public class SerieDetailActivity extends Activity implements ICallAPI,OnChildClickListener,IConvertToBitmap{
 

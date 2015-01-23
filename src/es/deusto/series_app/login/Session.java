@@ -68,6 +68,7 @@ public class Session {
 					.putInt(MySettingsFragment.KEY_ID, usuario.getId())
 					.commit();
 					Log.i("Id usuario", ""+ usuario.getId());
+					id = usuario.getId();
 				} else {
 					Log.e("Database Error", "Email " + getEmail()
 							+ " not found");

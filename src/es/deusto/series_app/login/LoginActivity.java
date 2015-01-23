@@ -1,7 +1,9 @@
 package es.deusto.series_app.login;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,8 +33,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 
+import es.deusto.series_app.Constantes;
 import es.deusto.series_app.R;
 import es.deusto.series_app.database.UsuarioDAO;
+import es.deusto.series_app.task.CallAPI;
 import es.deusto.series_app.vo.Usuario;
 
 /**
@@ -375,6 +380,19 @@ public class LoginActivity extends PlusBaseActivity implements
 			if (success) {
 				//Set the session of the user
 				session.setEmail(mEmail);
+				
+				Session session = new Session ( LoginActivity.this );
+				Map<String,String> parametros = new HashMap<String,String>();
+				
+				parametros.put("user_id", session.getId().toString());
+				
+				CallAPI callAPI = new CallAPI(LoginActivity.this, null );
+				callAPI.setGetOrPost(false);
+				callAPI.setParametros(parametros);
+				callAPI.setJsonResponse(false);
+				
+				callAPI.execute(Constantes.URL_REGISTER_USER);
+				
 				finish();
 			} else {
 				mPasswordView
