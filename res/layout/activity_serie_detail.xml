@@ -15,7 +15,7 @@
         android:paddingTop="10dp"
         android:orientation="horizontal" >
 
-        <ImageView
+            <ImageView
             android:id="@+id/serieBanner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -25,11 +25,28 @@
             android:paddingRight="30dp" />
 
    </LinearLayout>
+   
+   	<TextView
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_marginTop="10dp"
+        android:text="@string/description_separator" />
+   	
+    <TextView
+        android:id="@+id/serieDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+  	/>
+    
+   	<TextView
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_marginTop="10dp"
+        android:text="@string/seasons_separator" />
 
     <ExpandableListView
         android:id="@+id/listEpisodios"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="380dp"
         android:paddingTop="10dp" >
     </ExpandableListView>
 

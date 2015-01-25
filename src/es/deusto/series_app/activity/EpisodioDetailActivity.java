@@ -87,7 +87,7 @@ public class EpisodioDetailActivity extends Activity implements IConvertToBitmap
 		textViewRating.setText(checkIfNull ( episodio.getRating() ) );
 		
 		TextView textViewIssueDate = (TextView)findViewById(R.id.episodeIssueDate);
-		textViewIssueDate.setText(checkIfNull ( episodio.getFechaEmisionFormateada() ) );
+		textViewIssueDate.setText(checkIfNull ( episodio.getFechaEmisionFormateada2() ) );
 		
 		comments = commentDAO.findCommentByEpisodioId(episodio.getId());
 		
@@ -147,6 +147,7 @@ public class EpisodioDetailActivity extends Activity implements IConvertToBitmap
 				{
 					comments.add(newComment);
 					commentAdapter.notifyDataSetChanged();
+					commentDAO.addComment(newComment);
 				}
 			}
 		}

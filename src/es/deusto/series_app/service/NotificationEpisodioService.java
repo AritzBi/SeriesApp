@@ -59,7 +59,8 @@ public class NotificationEpisodioService extends Service {
 	        				for ( Episodio episodio : episodios )
 	        				{
 	        					Date ahora = new Date();
-	        					ahora.setDate(11);
+	        					ahora.setDate(8);
+	        					ahora.setMonth(1);
 	        					ahora.setMinutes(0);
 	        					ahora.setHours(21);
 	        					Log.i("Fecha ahora", "" + ahora );
@@ -92,6 +93,7 @@ public class NotificationEpisodioService extends Service {
 	        				}
 	        			}
 	        			episodiosANotificar.clear();
+	        			episodioDAO.close();
 	        		}
 	        	}
 	        }

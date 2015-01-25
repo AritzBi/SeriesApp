@@ -1,27 +1,33 @@
 package es.deusto.series_app.activity;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 import es.deusto.series_app.Constantes;
 import es.deusto.series_app.R;
 import es.deusto.series_app.login.Session;
+import es.deusto.series_app.task.GetLocation;
+import es.deusto.series_app.task.IGetLocation;
 import es.deusto.series_app.vo.Comment;
 import es.deusto.series_app.vo.Episodio;
 
-public class CommentActivity extends Activity implements OnCheckedChangeListener{
+public class CommentActivity extends Activity implements IGetLocation {
 
 	private String episodioId;
 	
 	private int usuarioId;
 	
-	private String localizacion = null;
+	private TextView commentCountry;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +35,14 @@ public class CommentActivity extends Activity implements OnCheckedChangeListener
 		
 		setContentView(R.layout.activity_comment);
 		
-		CheckBox includeMyLocationCheck = (CheckBox) findViewById(R.id.chkIncluirLocalizacion);
-		
-		includeMyLocationCheck.setOnCheckedChangeListener(this);
-		
 		Episodio episodio = (Episodio) getIntent().getExtras().getSerializable(Constantes.EPISODIO );
 		
 		if ( episodio != null )
 		{
 			this.episodioId = episodio.getId();
+			
+			TextView episodioName = (TextView) findViewById(R.id.commentEpisodioName);
+			episodioName.setText(episodio.getNombre());
 		}
 		
 		Session session = new Session ( this );
@@ -69,9 +74,11 @@ public class CommentActivity extends Activity implements OnCheckedChangeListener
 			comment.setIdUsuario(usuarioId);
 			comment.setTexto( getTexto() );
 			
-			if ( localizacion != null )
+			CheckBox includeMyLocationCheck = (CheckBox) findViewById(R.id.chkIncluirLocalizacion);
+			
+			if ( includeMyLocationCheck.isChecked() && commentCountry != null )
 			{
-				comment.setLocalizacionUsuario(localizacion);
+				comment.setLocalizacionUsuario( commentCountry.getText().toString() );
 			}
 			
 			Intent intent = new Intent();
@@ -86,6 +93,10 @@ public class CommentActivity extends Activity implements OnCheckedChangeListener
 			finish();
 			return true;
 		}
+		else if ( id == R.id.action_point_location ) {
+			GetLocation getLocation = new GetLocation(this, getApplicationContext() );
+			getLocation.execute();
+		}
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -94,13 +105,35 @@ public class CommentActivity extends Activity implements OnCheckedChangeListener
 		EditText editText = (EditText) findViewById(R.id.textoComment);
 		return editText.getText().toString();
 	}
-
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-		if ( isChecked )
+	
+	public void processReceivedLocation ( Location loc )
+	{
+		if ( loc != null )
 		{
-			//we retrieve the location
+			double [] coords = new double[2];
+			coords[0] = loc.getLatitude();
+			coords[1] = loc.getLongitude();
+			
+			String country = getCountry(coords);
+			if ( country != null )
+			{
+				commentCountry = (TextView) findViewById(R.id.commentLocation);
+				commentCountry.setText(country);
+			}
 		}
+	}
+	
+	private String getCountry(double[] coords){
+		String result = "";
+		
+		try {
+			Geocoder geo = new Geocoder(getApplicationContext());
+			Address address = geo.getFromLocation(coords[0], coords[1], 1).get(0);
+			result =  address.getLocality() + " , " + address.getPostalCode();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

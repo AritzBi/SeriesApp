@@ -56,4 +56,10 @@
 	<string name="remove_comment">Remove Comment</string>
 	
 	<string name="arduino_id">Arduino Id</string>
+	<string name="arduino_id_summary">Enter your Arduino Id</string>
+	
+	<string name="seasons_separator">Seasons</string>
+	<string name="description_separator">Description</string>
+	
+	<string name="actual_location">Actual Location</string>
 </resources>

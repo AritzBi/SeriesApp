@@ -1,9 +1,12 @@
 package es.deusto.series_app.adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -48,7 +51,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
     
     private Map<String, List<Episodio> > ordenarEpisodiosEnTemporadas ( List <Episodio> episodios ){
-    	Map<String, List<Episodio> > temporadasConEpisodios = new HashMap<String, List<Episodio> >();
+    	Map<String, List<Episodio> > temporadasConEpisodios = new TreeMap<String, List<Episodio> >();
     	for ( Episodio episodio : episodios )
     	{
     		if ( temporadasConEpisodios.containsKey(episodio.getNumeroTemporada() ) )

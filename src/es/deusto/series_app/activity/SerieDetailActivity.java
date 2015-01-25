@@ -19,12 +19,10 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import es.deusto.series_app.Constantes;
 import es.deusto.series_app.JSONParser;
 import es.deusto.series_app.R;
-import es.deusto.series_app.R.id;
-import es.deusto.series_app.R.layout;
-import es.deusto.series_app.R.menu;
 import es.deusto.series_app.adapter.ExpandableListAdapter;
 import es.deusto.series_app.database.EpisodioDAO;
 import es.deusto.series_app.task.CallAPI;
@@ -95,6 +93,10 @@ public class SerieDetailActivity extends Activity implements ICallAPI,OnChildCli
 	{
 		this.serie = serie;
 		imageView = (ImageView) findViewById(R.id.serieBanner);
+		TextView textView = (TextView) findViewById(R.id.serieDescription);
+		
+		textView.setText(serie.getDescripcion());
+		
 		if ( serie.getBannerPath() != null )
 		{
 			ConvertToBitmap convertToBitmap = new ConvertToBitmap(getApplicationContext(), this);

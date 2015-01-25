@@ -1,6 +1,7 @@
 package es.deusto.series_app.vo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Episodio implements Serializable {
@@ -76,6 +77,10 @@ public class Episodio implements Serializable {
 	}
 	public String getFechaEmisionFormateada () {
 		return new Date ( fechaEmision ).toString();
+	}
+	public String getFechaEmisionFormateada2 () {
+		SimpleDateFormat df2 = new SimpleDateFormat("HH:mm MM/dd/yyyy");
+		return df2.format( new Date ( fechaEmision ) );
 	}
 	public Date getFechaEmisionDate() {
 		return new Date ( fechaEmision );

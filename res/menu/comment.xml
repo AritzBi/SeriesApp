@@ -1,7 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="es.deusto.series_app.CommentActivity" >
-    <item android:id="@+id/action_add_comment" android:title="@string/add_comment" android:showAsAction="always" android:icon="@drawable/ic_action_accept"></item>
-    <item android:id="@+id/action_remove_comment" android:title="@string/remove_comment" android:icon="@drawable/ic_action_cancel" android:showAsAction="always"></item>
+    <item android:id="@+id/action_add_comment" android:title="@string/add_comment" android:showAsAction="always" android:icon="@drawable/ic_action_accept" android:orderInCategory="150"></item>
+    <item android:id="@+id/action_remove_comment" android:title="@string/remove_comment" android:icon="@drawable/ic_action_cancel" android:showAsAction="always" android:orderInCategory="100"></item>
+    <item android:id="@+id/action_point_location" android:orderInCategory="50" android:title="@string/actual_location" android:icon="@drawable/ic_action_place" android:showAsAction="always"></item>
 
 </menu>

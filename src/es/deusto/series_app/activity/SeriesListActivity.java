@@ -37,6 +37,7 @@ import es.deusto.series_app.database.SerieFavoritaDAO;
 import es.deusto.series_app.login.LoginActivity;
 import es.deusto.series_app.login.Session;
 import es.deusto.series_app.preferences.MySettingsActivity;
+import es.deusto.series_app.preferences.MySettingsFragment;
 import es.deusto.series_app.task.CallAPI;
 import es.deusto.series_app.task.ConvertToBitmap;
 import es.deusto.series_app.task.ICallAPI;
@@ -102,7 +103,7 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 			
 			if ( sharedPref.getBoolean(MySettingsFragment.KEY_SHOW_CONCLUDED_SERIES, true) )
 			{
-				serieAdapter.getShowConcludedSeriesFilter().filter("Show Concluded Series");
+				
 			}
 			else
 			{
@@ -141,7 +142,7 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		
 		getListView().setTextFilterEnabled(true);
 		
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		
 	}
 	
@@ -387,7 +388,6 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	
 	@Override
 	protected void onResume() {
-		
 		serieDAO.open();
 		
 		if ( estadoInicial != null && estadoInicial.equals("") && !session.getEmail().equals(""))
@@ -396,12 +396,24 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 			estadoInicial = null;
 		}
 		
+		if ( lstSeries.size() > 0 )
+		{
+			if ( PreferenceManager.getDefaultSharedPreferences(this).getBoolean(MySettingsFragment.KEY_SHOW_CONCLUDED_SERIES, true) )
+			{
+				serieAdapter.getShowConcludedSeriesFilter().filter(null);
+			}
+			else
+			{
+				serieAdapter.getShowConcludedSeriesFilter().filter("Show Concluded Series");
+			}
+		}
 		super.onResume();
 	}
 	
 	@Override
 	protected void onPause() {
 		serieDAO.close();
+		serieFavoritaDAO.close();
 		super.onPause();
 	}
 	

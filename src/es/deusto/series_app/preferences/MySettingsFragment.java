@@ -39,6 +39,10 @@ public class MySettingsFragment extends PreferenceFragment implements OnSharedPr
 		findPreference(KEY_EMAIL).setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(KEY_EMAIL, ""));
 		findPreference(KEY_ARDUINO_ID).setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(KEY_ARDUINO_ID, ""));
 		
+		if ( getPreferenceManager().getSharedPreferences().getBoolean(KEY_NOTIFICATION_ANDROID, false) && !SeriesListActivity.isAlarmRegistered() )
+		{
+			registerAlarm(getActivity());
+		}
 	}
 	
 	@Override
@@ -101,7 +105,8 @@ public class MySettingsFragment extends PreferenceFragment implements OnSharedPr
 			}
 		}
 		else if ( key.equals(KEY_ARDUINO_ID) ) {
-			String arduinoId = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(KEY_ARDUINO_ID, "");
+			String arduinoId = sharedPreferences.getString(KEY_ARDUINO_ID, "");
+			findPreference(key).setSummary( arduinoId );
 			if ( !arduinoId.equals("") )
 			{
 				CallAPI callAPI = new CallAPI(getActivity() , null);

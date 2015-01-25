@@ -180,6 +180,7 @@ public class SerieAdapter extends BaseAdapter implements Filterable {
             if (constraint != null) {
             	for ( final Serie serie : orig )
             	{
+            		Log.i("Serie " + serie.getNombre() , "Finished " + serie.isFinished() );
             		if ( !serie.isFinished() )
             		{
             			results.add(serie);

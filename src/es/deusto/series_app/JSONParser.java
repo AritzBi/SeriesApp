@@ -71,7 +71,7 @@ public class JSONParser {
 				String id = jsonSerie.getString("id");
 				String nombre = jsonSerie.getString("name");
 				boolean finished = jsonSerie.getBoolean("finished");
-				
+				Log.i("Seire " + nombre , "Finish " + finished );
 				Serie serie = new Serie();
 				serie.setCadena(cadena);
 				serie.setDescripcion(descripcion);
