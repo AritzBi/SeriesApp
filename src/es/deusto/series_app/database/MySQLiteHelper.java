@@ -16,6 +16,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static String COLUMN_SERIE_DESCRIPCION = "descripcion";
 	public static String COLUMN_SERIE_NOMBRE = "nombre";
 	public static String COLUMN_SERIE_BANNER = "banner";
+	public static String COLUMN_SERIE_FINISHED = "finished";
 	
 	public static String TABLE_EPISODIO = "EPISODIO";
 	public static String COLUMN_EPISODIO_ID = "id";
@@ -46,7 +47,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_SERIE
 			+ " ( " + COLUMN_SERIE_ID + " INTEGER NOT NULL UNIQUE, "
 			+ COLUMN_SERIE_CADENA + " TEXT, " + COLUMN_SERIE_DESCRIPCION
-			+ " TEXT, " + COLUMN_SERIE_NOMBRE + " TEXT NOT NULL, "
+			+ " TEXT, " + COLUMN_SERIE_NOMBRE + " TEXT NOT NULL, " +
+			COLUMN_SERIE_FINISHED + " NUMERIC, "
 			+ COLUMN_SERIE_BANNER + "	TEXT, " + " PRIMARY KEY(id));";
 	
 	private static final String TABLE_EPISODE_CREATE = "CREATE TABLE " + TABLE_EPISODIO

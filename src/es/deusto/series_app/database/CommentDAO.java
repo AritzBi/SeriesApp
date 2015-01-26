@@ -42,6 +42,11 @@ public class CommentDAO {
 		database.insert(MySQLiteHelper.TABLE_COMMENT, null, values);
 	}
 	
+	public void removeComment ( Comment comment )
+	{
+		database.delete(MySQLiteHelper.TABLE_COMMENT, MySQLiteHelper.COLUMN_COMMENT_EPISODIO_ID + " = " + comment.getIdEpisodio() + " AND " + MySQLiteHelper.COLUMN_COMMENT_USUARIO_ID + " = " + comment.getIdUsuario(), null);
+	}
+	
 	public List<Comment> findCommentByEpisodioId ( String id )
 	{
 	 	List<Comment> comentarios = new ArrayList<Comment>();

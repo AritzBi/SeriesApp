@@ -1459,23 +1459,24 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_light=0x7f020070;
         public static final int ic_action_accept=0x7f020071;
         public static final int ic_action_cancel=0x7f020072;
-        public static final int ic_action_important=0x7f020073;
-        public static final int ic_action_not_important=0x7f020074;
-        public static final int ic_action_place=0x7f020075;
-        public static final int ic_action_search=0x7f020076;
-        public static final int ic_action_share=0x7f020077;
-        public static final int ic_action_time=0x7f020078;
-        public static final int ic_launcher=0x7f020079;
-        public static final int ic_plusone_medium_off_client=0x7f02007a;
-        public static final int ic_plusone_small_off_client=0x7f02007b;
-        public static final int ic_plusone_standard_off_client=0x7f02007c;
-        public static final int ic_plusone_tall_off_client=0x7f02007d;
-        public static final int powered_by_google_dark=0x7f02007e;
-        public static final int powered_by_google_light=0x7f02007f;
+        public static final int ic_action_discard=0x7f020073;
+        public static final int ic_action_important=0x7f020074;
+        public static final int ic_action_not_important=0x7f020075;
+        public static final int ic_action_place=0x7f020076;
+        public static final int ic_action_search=0x7f020077;
+        public static final int ic_action_share=0x7f020078;
+        public static final int ic_action_time=0x7f020079;
+        public static final int ic_launcher=0x7f02007a;
+        public static final int ic_plusone_medium_off_client=0x7f02007b;
+        public static final int ic_plusone_small_off_client=0x7f02007c;
+        public static final int ic_plusone_standard_off_client=0x7f02007d;
+        public static final int ic_plusone_tall_off_client=0x7f02007e;
+        public static final int powered_by_google_dark=0x7f02007f;
+        public static final int powered_by_google_light=0x7f020080;
     }
     public static final class id {
         public static final int action_add_comment=0x7f09006a;
-        public static final int action_addcoment=0x7f09006d;
+        public static final int action_addcoment=0x7f09006e;
         public static final int action_bar=0x7f09002e;
         public static final int action_bar_activity_content=0x7f090027;
         public static final int action_bar_container=0x7f09002d;
@@ -1489,7 +1490,7 @@ containing a value of this type.
         public static final int action_mode_close_button=0x7f090036;
         public static final int action_point_location=0x7f09006c;
         public static final int action_remove_comment=0x7f09006b;
-        public static final int action_settings=0x7f09006e;
+        public static final int action_settings=0x7f09006f;
         public static final int activity_chooser_view_content=0x7f090037;
         public static final int always=0x7f09001e;
         public static final int beginning=0x7f090023;
@@ -1538,10 +1539,11 @@ containing a value of this type.
         public static final int login_progress=0x7f090057;
         public static final int match_parent=0x7f09000c;
         public static final int middle=0x7f090024;
-        public static final int mnu_search_serie=0x7f090071;
-        public static final int mnu_serie_favorite=0x7f090070;
-        public static final int mnu_serie_share=0x7f09006f;
-        public static final int mnu_view_favourite_series=0x7f090072;
+        public static final int mnu_delete_comment=0x7f09006d;
+        public static final int mnu_search_serie=0x7f090072;
+        public static final int mnu_serie_favorite=0x7f090071;
+        public static final int mnu_serie_share=0x7f090070;
+        public static final int mnu_view_favourite_series=0x7f090073;
         public static final int monochrome=0x7f090013;
         public static final int never=0x7f09001c;
         public static final int none=0x7f090000;
@@ -1654,11 +1656,12 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int comment=0x7f0e0000;
-        public static final int episodio_detail=0x7f0e0001;
-        public static final int my_settings=0x7f0e0002;
-        public static final int serie_bar=0x7f0e0003;
-        public static final int serie_detail=0x7f0e0004;
-        public static final int series_list=0x7f0e0005;
+        public static final int comment_bar=0x7f0e0001;
+        public static final int episodio_detail=0x7f0e0002;
+        public static final int my_settings=0x7f0e0003;
+        public static final int serie_bar=0x7f0e0004;
+        public static final int serie_detail=0x7f0e0005;
+        public static final int series_list=0x7f0e0006;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1705,14 +1708,15 @@ containing a value of this type.
         public static final int action_favorite_serie=0x7f070052;
         public static final int action_settings=0x7f070032;
         public static final int action_share_serie=0x7f070035;
-        public static final int action_sign_in=0x7f070060;
-        public static final int action_sign_in_short=0x7f070061;
+        public static final int action_sign_in=0x7f070063;
+        public static final int action_sign_in_short=0x7f070064;
         public static final int actual_location=0x7f07005c;
         public static final int add_comment=0x7f070054;
         public static final int app_name=0x7f070030;
         public static final int app_settings=0x7f070039;
         public static final int arduino_id=0x7f070058;
         public static final int arduino_id_summary=0x7f070059;
+        public static final int cancel=0x7f07005f;
         public static final int comments_separator=0x7f070051;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
@@ -1816,23 +1820,25 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f070005;
         public static final int create_calendar_title=0x7f070004;
         public static final int decline=0x7f070003;
+        public static final int delete_comment=0x7f07005d;
         public static final int description_separator=0x7f07005b;
         public static final int episodeIssueDate=0x7f07004f;
         public static final int episodeName=0x7f07004e;
         public static final int episodeRating=0x7f070050;
         public static final int episode_image=0x7f07004d;
-        public static final int error_field_required=0x7f070067;
-        public static final int error_incorrect_password=0x7f070066;
-        public static final int error_invalid_email=0x7f070064;
-        public static final int error_invalid_password=0x7f070065;
+        public static final int error_field_required=0x7f07006a;
+        public static final int error_incorrect_password=0x7f070069;
+        public static final int error_invalid_email=0x7f070067;
+        public static final int error_invalid_password=0x7f070068;
         public static final int filter_settings=0x7f07003a;
         public static final int hello_world=0x7f070031;
         public static final int inlcude_my_location=0x7f070056;
         public static final int msg_error_server=0x7f070034;
         public static final int no=0x7f070047;
         public static final int notification_settings=0x7f070042;
-        public static final int plus_disconnect=0x7f070063;
-        public static final int plus_sign_out=0x7f070062;
+        public static final int ok=0x7f07005e;
+        public static final int plus_disconnect=0x7f070066;
+        public static final int plus_sign_out=0x7f070065;
         public static final int pref_sort_by_rating=0x7f070041;
         public static final int pref_summary_email=0x7f07003e;
         public static final int pref_summary_filter_options=0x7f070040;
@@ -1850,8 +1856,8 @@ containing a value of this type.
         public static final int pref_title_username=0x7f07003b;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f07005e;
-        public static final int prompt_password=0x7f07005f;
+        public static final int prompt_email=0x7f070061;
+        public static final int prompt_password=0x7f070062;
         public static final int remove_comment=0x7f070057;
         public static final int search_serie=0x7f070036;
         public static final int seasons_separator=0x7f07005a;
@@ -1860,7 +1866,7 @@ containing a value of this type.
         public static final int store_picture_title=0x7f070000;
         public static final int title_activity_comment=0x7f070055;
         public static final int title_activity_episodio_detail=0x7f07004c;
-        public static final int title_activity_login=0x7f07005d;
+        public static final int title_activity_login=0x7f070060;
         public static final int title_activity_my_settings=0x7f070043;
         public static final int title_activity_serie_detail=0x7f070037;
         public static final int title_activity_series_list=0x7f070033;

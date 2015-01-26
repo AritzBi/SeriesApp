@@ -16,7 +16,7 @@ public class SerieDAO {
 	private MySQLiteHelper dbHelper;
 
 	private String[] allColumns = { MySQLiteHelper.COLUMN_SERIE_ID,
-		      MySQLiteHelper.COLUMN_SERIE_NOMBRE, MySQLiteHelper.COLUMN_SERIE_DESCRIPCION, MySQLiteHelper.COLUMN_SERIE_CADENA, MySQLiteHelper.COLUMN_SERIE_BANNER };
+		      MySQLiteHelper.COLUMN_SERIE_NOMBRE, MySQLiteHelper.COLUMN_SERIE_DESCRIPCION, MySQLiteHelper.COLUMN_SERIE_CADENA, MySQLiteHelper.COLUMN_SERIE_BANNER , MySQLiteHelper.COLUMN_SERIE_FINISHED};
 	  
 	public SerieDAO(Context context) {
 		dbHelper = new MySQLiteHelper(context);
@@ -38,7 +38,7 @@ public class SerieDAO {
 				serie.getDescripcion());
 		values.put(MySQLiteHelper.COLUMN_SERIE_CADENA, serie.getCadena());
 		values.put(MySQLiteHelper.COLUMN_SERIE_BANNER, serie.getBannerPath());
-
+		values.put(MySQLiteHelper.COLUMN_SERIE_FINISHED, serie.isFinished());
 		database.insert(MySQLiteHelper.TABLE_SERIE, null, values);
 	}
 	
@@ -67,6 +67,7 @@ public class SerieDAO {
 		    serie.setDescripcion(cursor.getString(2).trim());
 		    serie.setCadena(cursor.getString(3));
 		    serie.setBannerPath(cursor.getString(4));
+		    serie.setFinished(cursor.getInt(5) == 1 ? true :false );
 		    return serie;
 		  }
 

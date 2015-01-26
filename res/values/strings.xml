@@ -62,4 +62,9 @@
 	<string name="description_separator">Description</string>
 	
 	<string name="actual_location">Actual Location</string>
+	
+	<string name="delete_comment">Delete Comment</string>
+	
+	<string name="ok">Ok</string>
+	<string name="cancel">Cancel</string>
 </resources>

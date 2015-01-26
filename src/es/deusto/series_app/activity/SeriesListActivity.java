@@ -96,19 +96,6 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		else
 		{
 			generateSeriesList();
-			
-			
-			/**
-			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-			
-			if ( sharedPref.getBoolean(MySettingsFragment.KEY_SHOW_CONCLUDED_SERIES, true) )
-			{
-				
-			}
-			else
-			{
-				serieAdapter.getShowConcludedSeriesFilter().filter(null);
-			}**/
 		}
 			
 		if ( lstSeries == null )
