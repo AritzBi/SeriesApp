@@ -39,6 +39,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static String COLUMN_SERIES_FAVORITAS_SERIE_ID = "serieId";
 	
 	public static String TABLE_COMMENT = "COMMENT";
+	public static String COLUMN_COMMENT_ID = "idComment";
 	public static String COLUMN_COMMENT_USUARIO_ID = "idUsuario";
 	public static String COLUMN_COMMENT_EPISODIO_ID = "idEpisodio";
 	public static String COLUMN_COMMENT_TEXTO = "texto";
@@ -73,12 +74,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_SERIES_FAVORITAS_SERIE_ID + " TEXT NOT NULL, "
 			+ " PRIMARY KEY(userId,serieId) );";
 	
-	private static final String TABLE_COMMENT_CREATE = "CREATE TABLE " + TABLE_COMMENT + " ( "
+	private static final String TABLE_COMMENT_CREATE = "CREATE TABLE " + TABLE_COMMENT
+			+ " ( " + COLUMN_COMMENT_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, "
 			+ COLUMN_COMMENT_USUARIO_ID + " INTEGER NOT NULL, "
 			+ COLUMN_COMMENT_EPISODIO_ID + " TEXT NOT NULL, "
 			+ COLUMN_COMMENT_TEXTO + " TEXT NOT NULL, "
-			+ COLUMN_COMMENT_LOCALIZACION_USUARIO + " TEXT NOT NULL, "
-			+ " PRIMARY KEY(" + COLUMN_COMMENT_USUARIO_ID + "," + COLUMN_COMMENT_EPISODIO_ID + "," + COLUMN_COMMENT_TEXTO + "," + COLUMN_COMMENT_LOCALIZACION_USUARIO + ") );";
+			+ COLUMN_COMMENT_LOCALIZACION_USUARIO + " TEXT NOT NULL "
+			+ " );";
 
 	public MySQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

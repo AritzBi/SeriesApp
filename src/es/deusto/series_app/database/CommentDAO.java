@@ -16,7 +16,7 @@ public class CommentDAO {
 	private MySQLiteHelper dbHelper;
 	
 	private String[] allColumns = { MySQLiteHelper.COLUMN_COMMENT_EPISODIO_ID,MySQLiteHelper.COLUMN_COMMENT_LOCALIZACION_USUARIO,
-		      MySQLiteHelper.COLUMN_COMMENT_USUARIO_ID, MySQLiteHelper.COLUMN_COMMENT_TEXTO };
+		      MySQLiteHelper.COLUMN_COMMENT_USUARIO_ID, MySQLiteHelper.COLUMN_COMMENT_TEXTO, MySQLiteHelper.COLUMN_COMMENT_ID };
 	
 	public CommentDAO ( Context context )
 	{
@@ -44,7 +44,7 @@ public class CommentDAO {
 	
 	public void removeComment ( Comment comment )
 	{
-		database.delete(MySQLiteHelper.TABLE_COMMENT, MySQLiteHelper.COLUMN_COMMENT_EPISODIO_ID + " = " + comment.getIdEpisodio() + " AND " + MySQLiteHelper.COLUMN_COMMENT_USUARIO_ID + " = " + comment.getIdUsuario(), null);
+		database.delete(MySQLiteHelper.TABLE_COMMENT, MySQLiteHelper.COLUMN_COMMENT_ID + " = " + comment.getId() , null);
 	}
 	
 	public List<Comment> findCommentByEpisodioId ( String id )
@@ -73,7 +73,7 @@ public class CommentDAO {
 		comment.setLocalizacionUsuario(cursor.getString(1));
 		comment.setIdUsuario(cursor.getInt(2));
 		comment.setTexto(cursor.getString(3));
-		
+		comment.setId(cursor.getInt(4));
 		return comment;
 	}
 }

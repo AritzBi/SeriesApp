@@ -4,10 +4,20 @@ import java.io.Serializable;
 
 public class Comment implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
+	private int id;
 	private int idUsuario;
 	private String idEpisodio;
 	private String texto;
 	private String localizacionUsuario;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getIdUsuario() {
 		return idUsuario;
 	}
