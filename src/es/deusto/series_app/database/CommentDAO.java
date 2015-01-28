@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import es.deusto.series_app.vo.Comment;
 
 public class CommentDAO {
@@ -31,7 +32,7 @@ public class CommentDAO {
 		dbHelper.close();
 	}
 	
-	public void addComment ( Comment comment )
+	public long addComment ( Comment comment )
 	{
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_COMMENT_EPISODIO_ID, comment.getIdEpisodio() );
@@ -39,11 +40,36 @@ public class CommentDAO {
 		values.put(MySQLiteHelper.COLUMN_COMMENT_TEXTO, comment.getTexto());
 		values.put(MySQLiteHelper.COLUMN_COMMENT_LOCALIZACION_USUARIO, comment.getLocalizacionUsuario());
 
-		database.insert(MySQLiteHelper.TABLE_COMMENT, null, values);
+		return database.insert(MySQLiteHelper.TABLE_COMMENT, null, values);
+		
+		
+	}
+	
+	public Comment getById ( int id )
+	{
+	 	List<Comment> comentarios = new ArrayList<Comment>();
+
+	    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENT,
+	        allColumns, MySQLiteHelper.COLUMN_COMMENT_ID + " = " + id , null, null, null, null);
+
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	      Comment comment = cursorToComment(cursor);
+	      comentarios.add(comment);
+	      cursor.moveToNext();
+	    }
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    if ( comentarios.size() > 0 )
+	    	return comentarios.get(0);
+	    else
+	    	return null;
 	}
 	
 	public void removeComment ( Comment comment )
 	{
+		Log.i("Id", "" + comment.getId() );
 		database.delete(MySQLiteHelper.TABLE_COMMENT, MySQLiteHelper.COLUMN_COMMENT_ID + " = " + comment.getId() , null);
 	}
 	

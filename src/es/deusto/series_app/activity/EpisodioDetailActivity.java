@@ -242,7 +242,11 @@ public class EpisodioDetailActivity extends Activity implements IConvertToBitmap
 			Map<String, Bitmap> bitmapsBannersPath) {
 	
 		Bitmap imagen = bitmapsBannersPath.get(episodio.getRutaImagen() );
-		imageView.setImageBitmap(imagen);
+		if ( imagen != null )
+		{
+			imageView.setImageBitmap(imagen);
+		}
+		
 		
 	}
 
@@ -258,7 +262,7 @@ public class EpisodioDetailActivity extends Activity implements IConvertToBitmap
 				{
 					comments.add(newComment);
 					commentAdapter.notifyDataSetChanged();
-					commentDAO.addComment(newComment);
+					newComment.setId( (int) commentDAO.addComment(newComment) );
 				}
 			}
 		}

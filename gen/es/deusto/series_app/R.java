@@ -1462,21 +1462,24 @@ containing a value of this type.
         public static final int ic_action_discard=0x7f020073;
         public static final int ic_action_important=0x7f020074;
         public static final int ic_action_not_important=0x7f020075;
-        public static final int ic_action_place=0x7f020076;
-        public static final int ic_action_search=0x7f020077;
-        public static final int ic_action_share=0x7f020078;
-        public static final int ic_action_time=0x7f020079;
-        public static final int ic_launcher=0x7f02007a;
-        public static final int ic_plusone_medium_off_client=0x7f02007b;
-        public static final int ic_plusone_small_off_client=0x7f02007c;
-        public static final int ic_plusone_standard_off_client=0x7f02007d;
-        public static final int ic_plusone_tall_off_client=0x7f02007e;
-        public static final int powered_by_google_dark=0x7f02007f;
-        public static final int powered_by_google_light=0x7f020080;
+        public static final int ic_action_picture=0x7f020076;
+        public static final int ic_action_place=0x7f020077;
+        public static final int ic_action_search=0x7f020078;
+        public static final int ic_action_share=0x7f020079;
+        public static final int ic_action_time=0x7f02007a;
+        public static final int ic_launcher=0x7f02007b;
+        public static final int ic_plusone_medium_off_client=0x7f02007c;
+        public static final int ic_plusone_small_off_client=0x7f02007d;
+        public static final int ic_plusone_standard_off_client=0x7f02007e;
+        public static final int ic_plusone_tall_off_client=0x7f02007f;
+        public static final int ic_series_app=0x7f020080;
+        public static final int powered_by_google_dark=0x7f020081;
+        public static final int powered_by_google_light=0x7f020082;
+        public static final int widget_shape=0x7f020083;
     }
     public static final class id {
-        public static final int action_add_comment=0x7f09006a;
-        public static final int action_addcoment=0x7f09006e;
+        public static final int action_add_comment=0x7f09006d;
+        public static final int action_addcoment=0x7f090071;
         public static final int action_bar=0x7f09002e;
         public static final int action_bar_activity_content=0x7f090027;
         public static final int action_bar_container=0x7f09002d;
@@ -1488,9 +1491,9 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f090028;
         public static final int action_menu_presenter=0x7f090029;
         public static final int action_mode_close_button=0x7f090036;
-        public static final int action_point_location=0x7f09006c;
-        public static final int action_remove_comment=0x7f09006b;
-        public static final int action_settings=0x7f09006f;
+        public static final int action_point_location=0x7f09006f;
+        public static final int action_remove_comment=0x7f09006e;
+        public static final int action_settings=0x7f090072;
         public static final int activity_chooser_view_content=0x7f090037;
         public static final int always=0x7f09001e;
         public static final int beginning=0x7f090023;
@@ -1528,6 +1531,7 @@ containing a value of this type.
         public static final int icon=0x7f09003c;
         public static final int ifRoom=0x7f09001d;
         public static final int image=0x7f090039;
+        public static final int imageLabel=0x7f09006b;
         public static final int lblListHeader=0x7f090065;
         public static final int lblListItem=0x7f090066;
         public static final int listComments=0x7f090056;
@@ -1539,11 +1543,11 @@ containing a value of this type.
         public static final int login_progress=0x7f090057;
         public static final int match_parent=0x7f09000c;
         public static final int middle=0x7f090024;
-        public static final int mnu_delete_comment=0x7f09006d;
-        public static final int mnu_search_serie=0x7f090072;
-        public static final int mnu_serie_favorite=0x7f090071;
-        public static final int mnu_serie_share=0x7f090070;
-        public static final int mnu_view_favourite_series=0x7f090073;
+        public static final int mnu_delete_comment=0x7f090070;
+        public static final int mnu_search_serie=0x7f090075;
+        public static final int mnu_serie_favorite=0x7f090074;
+        public static final int mnu_serie_share=0x7f090073;
+        public static final int mnu_view_favourite_series=0x7f090076;
         public static final int monochrome=0x7f090013;
         public static final int never=0x7f09001c;
         public static final int none=0x7f090000;
@@ -1584,7 +1588,9 @@ containing a value of this type.
         public static final int submit_area=0x7f09004b;
         public static final int tabMode=0x7f090015;
         public static final int terrain=0x7f090003;
+        public static final int textLabel=0x7f09006c;
         public static final int textoComment=0x7f09004f;
+        public static final int thumbnail=0x7f09006a;
         public static final int title=0x7f09003d;
         public static final int top_action_bar=0x7f090032;
         public static final int up=0x7f090033;
@@ -1653,6 +1659,7 @@ containing a value of this type.
         public static final int list_item=0x7f03001f;
         public static final int serie_row=0x7f030020;
         public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int widget_layout=0x7f030022;
     }
     public static final class menu {
         public static final int comment=0x7f0e0000;
@@ -2118,7 +2125,8 @@ containing a value of this type.
         public static final int Widget_AppCompat_Spinner_DropDown_ActionBar=0x7f060027;
     }
     public static final class xml {
-        public static final int preferences=0x7f050000;
+        public static final int appwidget_episode_info=0x7f050000;
+        public static final int preferences=0x7f050001;
     }
     public static final class styleable {
         /**  ============================================ 

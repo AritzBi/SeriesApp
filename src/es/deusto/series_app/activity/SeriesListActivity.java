@@ -81,7 +81,6 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		serieDAO.open();
 		
 		serieFavoritaDAO = new SerieFavoritaDAO(this);
-		serieFavoritaDAO.open();
 		
 		session = new Session( this );
 		
@@ -173,6 +172,9 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 	    	final int itemPosition = Integer.parseInt(mode.getTag().toString());
 	    	Serie serie = lstSeries.get(itemPosition);
+	    	Log.i("Session Id", ""+session.getId());
+	    	Log.i("Serie Id", serie.getId());
+	    	serieFavoritaDAO.open();
 			switch ( item.getItemId() )
 			{
 				case R.id.mnu_serie_favorite:
@@ -181,18 +183,21 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 						serieFavoritaDAO.deleteSerieFavorita( new SerieFavorita(session.getId(), serie.getId() ) );
 						Toast.makeText(getApplicationContext(), "Serie " + serie.getNombre() + " deleted from favourites", Toast.LENGTH_SHORT).show();
 						Log.i("Favorite Serie","Deleted");
+						serieFavoritaDAO.close();
 					}
 					else
 					{
 						serieFavoritaDAO.addSerieFavorita(new SerieFavorita(session.getId(), serie.getId() ) );
 						Toast.makeText(getApplicationContext(), "Serie " + serie.getNombre() + " added to favourites", Toast.LENGTH_SHORT).show();
 						Log.i("Favorite Serie", "Added");
+						serieFavoritaDAO.close();
 					}
 					mode.finish();
 					return true;
 	            default:
 	                return false;
 			}
+			
 		}
 
 		@Override
@@ -400,7 +405,6 @@ public class SeriesListActivity extends ListActivity implements ICallAPI,IConver
 	@Override
 	protected void onPause() {
 		serieDAO.close();
-		serieFavoritaDAO.close();
 		super.onPause();
 	}
 	

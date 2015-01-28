@@ -79,7 +79,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_COMMENT_USUARIO_ID + " INTEGER NOT NULL, "
 			+ COLUMN_COMMENT_EPISODIO_ID + " TEXT NOT NULL, "
 			+ COLUMN_COMMENT_TEXTO + " TEXT NOT NULL, "
-			+ COLUMN_COMMENT_LOCALIZACION_USUARIO + " TEXT NOT NULL "
+			+ COLUMN_COMMENT_LOCALIZACION_USUARIO + " TEXT "
 			+ " );";
 
 	public MySQLiteHelper(Context context) {
