@@ -69,7 +69,7 @@ public class MySettingsFragment extends PreferenceFragment implements OnSharedPr
 			AlarmManager alarm = (AlarmManager) getActivity().getSystemService(
 					Context.ALARM_SERVICE);
 			alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-					60 * 1000, pintent);
+					3600000 , pintent);
 			SeriesListActivity.setPendingIntent(pintent);
 			SeriesListActivity.setAlarmRegistered(true);
 		}

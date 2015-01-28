@@ -8,7 +8,6 @@
     
     <PreferenceCategory android:title="@string/filter_settings">
         <MultiSelectListPreference android:key="pref_filter_options" android:title="@string/pref_title_filter_options" android:summary="@string/pref_summary_filter_options" android:defaultValue="@array/pref_filter_options_default_values" android:entries="@array/pref_filter_options_entries" android:entryValues="@array/pref_filter_options_entries"/>
-     <CheckBoxPreference android:key="pref_sort_by_rating" android:title="@string/pref_sort_by_rating" android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notification_settings">
         <SwitchPreference android:key="pref_notifications" android:title="@string/pref_title_notifications" android:defaultValue="@string/no" />
